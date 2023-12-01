@@ -16,6 +16,10 @@ export class ChangeAssignmentsComponent {
   currentUser: any = null;
   selectedAssignment: Assignment | null = null;
 
+  page: number = 1;
+  pageSize: number = 10; // Nombre d'éléments par page
+  totalAssignments = 500; // Nombre total d'éléments à paginer
+
 
 
   constructor(
@@ -25,8 +29,7 @@ export class ChangeAssignmentsComponent {
     private route: ActivatedRoute ) { }
 
   ngOnInit(): void {
-    this.getAssignments();
-    this.getAssignment();
+    this.loadAssignments();
     this.authService.userObservable$.subscribe(user => {
       this.currentUser = user;
 
@@ -78,6 +81,14 @@ export class ChangeAssignmentsComponent {
   onClickEdit() {
     this.router.navigate(['/assignment', this.selectedAssignment.id, 'edit'],
     {queryParams: {nom: this.selectedAssignment.nom}, fragment: 'edition'});
+  }
+
+  loadAssignments() {
+    this.assignmentService.getAssignments(this.page, this.pageSize).subscribe(data => {
+      this.assignments = data;
+    }, error => {
+      console.error('Erreur lors de la récupération des assignments', error);
+    });
   }
 
 }

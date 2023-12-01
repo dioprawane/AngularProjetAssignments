@@ -36,12 +36,14 @@ export class DetailAssignmentsComponent implements OnInit {
     // soucis : la liste n'est pas là mais dans le composant parent
     // on va donc envoyer un message au parent pour lui dire de supprimer
     // l'assignment de la liste. Cet assignment est égal à this.assignmentTransmis
-    this.assignmentsService.deleteAssignment(this.assignmentTransmis).subscribe(message => console.log(message));
+    this.assignmentsService.deleteAssignment(this.assignmentTransmis)
+        .subscribe(message => {
+          console.log(message);
+          this.router.navigate(['/list']);
+        });
 
     // pour cacher le détail de l'assignment dans la page
     //this.assignmentTransmis = null;
-
-    this.router.navigate(['/list']);
   }
 
 onAssignmentRendu() {

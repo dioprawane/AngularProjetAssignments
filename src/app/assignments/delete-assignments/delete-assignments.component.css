@@ -77,3 +77,56 @@ h3 {
     align-items: flex-end;
     margin-left: 5px;
 }
+
+
+/* Stylisation générale de la liste */
+mat-list {
+    /* espace autour de la liste */
+   max-width: 600px; /* ajustez la largeur maximale selon vos besoins */
+   margin: auto; /* pour centrer la liste */
+   margin-top: 10px;
+   padding: 10px; /* espace autour des éléments de la liste */
+   background: #f7f7f7; /* couleur de fond légère */
+   border-radius: 4px; /* bordures arrondies */
+   box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* ombre subtile */
+   border: 10px solid #ddd; /* bordure pour chaque élément */
+ }
+ 
+ /* Stylisation des éléments de la liste */
+ mat-list-item {
+   border: 2px solid #ddd; /* bordure pour chaque élément */
+   margin-bottom: 10px; /* espace entre les éléments */
+   transition: background-color 0.3s; /* transition douce pour l'interaction */
+ }
+
+ /* Pour le premier élément de la liste */
+mat-list-item:first-child {
+   margin-top: 10px;
+ }
+ 
+ 
+ /* Interaction avec les éléments de la liste */
+ mat-list-item:hover {
+   background-color: #eaeaea; /* couleur de fond au survol */
+ }
+ 
+ /* Stylisation pour les devoirs rendus */
+ appRendu {
+   color: #4caf50; /* couleur verte pour les devoirs rendus */
+ }
+ 
+ /* Stylisation pour les devoirs non rendus */
+ appNonRendu {
+   color: #f44336; /* couleur rouge pour les devoirs non rendus */
+ }
+ 
+ /* Stylisation du séparateur */
+ mat-divider {
+   margin: 0 0 10px 0; /* ajustez l'espace autour des séparateurs */
+ }
+
+ .matList {
+   border: 2px solid #ddd; /* bordure pour chaque élément */
+   transition: background-color 0.3s; /* transition douce pour l'interaction */
+ }
+ 

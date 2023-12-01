@@ -1,4 +1,3 @@
-
 <mat-toolbar color="primary">
   <button mat-icon-button (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
     <mat-icon>menu</mat-icon>
@@ -45,9 +44,17 @@
     <!-- Afficher le message si l'utilisateur n'est pas connecté -->
     <h1 *ngIf="afficheMessage" class="alert-message">Vous n'êtes pas connecté, veuillez vous connecter</h1>
     <router-outlet></router-outlet>
+    <!--Ajout footer-->
   </mat-drawer-content>
 </mat-drawer-container>
 </mat-sidenav-container>
 
-<!--Ajout footer-->
-<app-footer></app-footer>
+<!-- Bouton pour peupler la base de données -->
+<button *ngIf="afficheButton" class="matButRaised" mat-raised-button color="primary" (click)="peuplerBD()" disabled>Peupler la base de données</button>
+
+
+<!-- Utilisez ngClass pour appliquer conditionnellement une classe en fonction de l'URL -->
+<div [ngClass]="{'f-home': isHomePage(), 'f': !isHomePage()}">
+  <app-footer></app-footer>
+</div>
+

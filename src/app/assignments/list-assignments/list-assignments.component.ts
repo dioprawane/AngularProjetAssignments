@@ -14,13 +14,18 @@ export class ListAssignmentsComponent implements OnInit {
   assignments:Assignment[] = [];
   afficheMessage: boolean = false;
   currentUser: any = null;
+
+  page: number = 1;
+  pageSize: number = 10; // Nombre d'éléments par page
+  totalAssignments = 500; // Nombre total d'éléments à paginer
   
   assignmentSelectionne?:Assignment;
 
   constructor(private assignmentService: AssignmentsService, private authService: AuthService, private router:Router) { }
 
   ngOnInit(): void {
-    this.getAssignments();
+    this.loadAssignments();
+    //this.getAssignments();
     this.authService.userObservable$.subscribe(user => {
       this.currentUser = user;
 
@@ -51,6 +56,14 @@ export class ListAssignmentsComponent implements OnInit {
 
   onDeleteAssignment(a:Assignment) {
     this.assignmentService.deleteAssignment(a).subscribe(message => console.log(message));
+  }
+
+  loadAssignments() {
+    this.assignmentService.getAssignments(this.page, this.pageSize).subscribe(data => {
+      this.assignments = data;
+    }, error => {
+      console.error('Erreur lors de la récupération des assignments', error);
+    });
   }
 
 }

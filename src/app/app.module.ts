@@ -16,6 +16,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -89,7 +92,10 @@ const routes: Routes = [
     MatCheckboxModule,
     MatCardModule,
     MatMenuModule,
+    HttpClientModule,
     MatSlideToggleModule,
+    NgxPaginationModule,
+    MatPaginatorModule,
     RouterModule.forRoot(routes)
   ],
   providers: [AssignmentsService, LoggingService, AuthService],

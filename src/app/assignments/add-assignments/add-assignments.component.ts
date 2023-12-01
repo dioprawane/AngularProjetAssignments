@@ -41,9 +41,10 @@ export class AddAssignmentsComponent implements OnInit {
     newAssignment.rendu = false;
     newAssignment.id = Math.floor(Math.random() * 1000) + 1;
 
-    this.assignmentsService.addAssignment(newAssignment).subscribe(message => console.log(message));
-
-    this.router.navigate(['list']);
+    this.assignmentsService.addAssignment(newAssignment)
+        .subscribe(message => 
+          console.log(message));
+          this.router.navigate(['list']);
 
   }
 

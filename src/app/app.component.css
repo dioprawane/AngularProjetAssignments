@@ -82,4 +82,18 @@ h1 {
 }
 
 
+/* Classe appliquée lorsque c'est la page d'accueil */
+.f-home {
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Classe appliquée sur toutes les autres pages */
+.f {
+  color: turquoise;
+  /* Ajoutez ici toute autre propriété CSS que vous souhaitez appliquer sur les autres pages */
+}
+
 

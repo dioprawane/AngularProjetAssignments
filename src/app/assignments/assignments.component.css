@@ -41,7 +41,7 @@ table tr td {
 .container {
     display:flex;
     flex-direction:column;
-    min-height: 300px;
+    min-height: 450px;
     align-items: center;
     height: 100vh;
   }

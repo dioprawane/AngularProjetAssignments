@@ -1,52 +1,64 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, lastValueFrom, of, forkJoin } from 'rxjs';
 import { Assignment } from '../assignments/assignment.model';
 import { LoggingService } from './logging.service';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { assignments } from '../shared/data';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentsService {
 
-  constructor(private loggingService:LoggingService) { }
+  constructor(private loggingService:LoggingService, private http:HttpClient) { }
 
-  assignments:Assignment[] = [
-    {
-      id: 1,
-      nom:"T1 Web Components",
-      dateDeRendu: new Date('2023-09-17'),
-      rendu:true,
-    },
-    {
-      id: 2,
-      nom: "NodeJS",
-      dateDeRendu: new Date('2023-10-17'),
-      rendu:true,
-    },
-    {
-      id: 3,
-      nom: "MongoDB",
-      dateDeRendu: new Date('2023-01-17'),
-      rendu:false
-    },
-  ];
+  //url = "http://localhost:8010/api/assignments";
+  url = "https://service1-projet-angular.onrender.com/api/assignments";
 
-  getAssignments():Observable<Assignment[]> {
-    return of (this.assignments);
+  /*peuplerBD(): Promise<any> {
+    // Utilisez votre API pour envoyer les données à la base de données
+    // Cela dépend de la façon dont votre backend est configuré
+    return Promise.all(assignments.map(assignment => {
+      return this.http.post<Assignment>(this.url, assignment);
+      //return firstValueFrom(this.http.post('/api/assignments', assignment));
+    }));
+  }*/
+
+  peuplerBD(): Observable<Assignment[]> {
+    const calls = assignments.map((assignment) => this.addAssignment(assignment));
+    return forkJoin(calls); // forkJoin attend que toutes les requêtes soient résolues
   }
 
-  addAssignment(assignment: Assignment): Observable<String> {
-    this.assignments.push(assignment);
-    this.loggingService.log(assignment?.nom, "ajouté");
+  /*getAssignments():Observable<Assignment[]> {
+    //return of (this.assignments);
+    return this.http.get<Assignment[]>(this.url);
+  }*/
 
-    return of('Assignment ajouté');
+  getAssignments(page: number = 1, pageSize: number = 50): Observable<Assignment[]> {
+    // Préparer les paramètres de la requête HTTP pour la pagination
+    let params = new HttpParams();
+    params = params.append('page', String(page));
+    params = params.append('limit', String(pageSize));
+
+    // Appel GET avec les paramètres de pagination
+    return this.http.get<Assignment[]>(this.url, { params: params });
   }
 
-  updateAssignment(assignment: Assignment): Observable<String> {
-    return of('Assignment service : assignment modifié !');
+  addAssignment(assignment: Assignment): Observable<any> {
+    //this.assignments.push(assignment);
+    //this.loggingService.log(assignment?.nom, "ajouté");
+
+    //return of('Assignment ajouté');
+    return this.http.post<Assignment>(this.url, assignment);
   }
 
-  deleteAssignment(assignment: Assignment): Observable<String> {
+  updateAssignment(assignment: Assignment): Observable<any> {
+    //return of('Assignment service : assignment modifié !');
+    return this.http.put<Assignment>(this.url, assignment);
+  }
+
+  deleteAssignment(assignment: Assignment): Observable<any> {
     /*// position de l'assignment à supprimer, dans le tableau
     const pos = this.assignments.indexOf(a);
 
@@ -55,11 +67,13 @@ export class AssignmentsService {
     // la position de l'élément à supprimer et le nombre d'éléments
     // à supprimer à partir de cette position
     this.assignments.splice(pos, 1);*/
-    const index = this.assignments.indexOf(assignment, 0);
+    /*const index = this.assignments.indexOf(assignment, 0);
     if (index > -1) {
       this.assignments.splice(index, 1);
     }
-    return of('Assignment service : assignment supprimé !');
+    return of('Assignment service : assignment supprimé !');*/
+    let deleteURI = this.url + "/" + assignment._id;
+    return this.http.delete(deleteURI);
   }
 
   /*
@@ -68,10 +82,9 @@ export class AssignmentsService {
    */
   getAssignment(id: number): Observable<Assignment | undefined> {
 
-    const a:Assignment|undefined = this.assignments.find(a => a.id === id);
-
-    return of(a);
-
-}
+    //const a:Assignment|undefined = this.assignments.find(a => a.id === id);
+    //return of(a);
+    return this.http.get<Assignment>(this.url + "/" + id);
+  }
 
 }

@@ -4,7 +4,8 @@
     </div>
   
     
-    <mat-list *ngFor="let a of assignments">
+    <div class="matList">
+    <mat-list *ngFor="let a of assignments | paginate: { itemsPerPage: pageSize, currentPage: page }">
       <nav><a routerLink="/delete" (click)="onAssignmentClicked(a)">
         <h3 mat-subheader>Date de rendu : {{ a.dateDeRendu | date }}</h3>
       </a></nav>
@@ -30,5 +31,9 @@
         </mat-card-content>
       </mat-card>
     </mat-list>
+  </div>
+
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+
   </main>
   

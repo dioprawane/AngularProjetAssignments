@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AuthService } from './shared/auth.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { AssignmentsService } from './shared/assignments.service';
+import { filter } from 'rxjs/operators';
 
 
 @Component({
@@ -14,9 +16,11 @@ export class AppComponent implements OnInit {
   x = 3;
   opened = true;
 
+  afficheButton: boolean = false;
+
   drawer: any;
 
-  constructor(private authService:AuthService, private router: Router) {}
+  constructor(private authService:AuthService, private router: Router, private assignmentService:AssignmentsService, private changeDetector: ChangeDetectorRef) {}
 
   currentUser: any = null;
 
@@ -27,28 +31,30 @@ export class AppComponent implements OnInit {
       this.currentUser = user;
     });
     console.log("currentUser de app.components : ", this.currentUser);
+
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      // Définit afficheButton et déclenche la détection des changements manuellement
+      this.afficheButton = event.url === '/';
+      console.log("button : ", this.afficheButton);
+      this.changeDetector.detectChanges(); // déclenche manuellement la détection des changements
+    });
+    
   }
 
 
-  /*onUser () {
-    this.currentUser = this.authService.getCurrentUser();
-    console.log("currentUser de app.components : ", this.currentUser);
-  }*/
-
-  /*login() { 
-    if(this.authService.isLogged() && this.authService.isAdmin()) {
-      this.authService.isAdmin();
-    } else if (this.authService.isLogged() && !this.authService.isAdmin()) {
-      !this.authService.isAdmin();
-      this.authService.logOut();
-      this.router.navigate(['/home']);
-    } else {
-      // L'utilisateur n'est pas connecté
-      console.log("Vous n'êtes pas connecté !");
-      alert("Vous devez vous connecter pour accéder à cette page.\nIdentifiants de connexion :\n- Admin : login : admin, mot de passe : passwordAdmin\n- User : login : user1, mot de passe : password1");
-      this.router.navigate(['/login']);
-    }
-  }*/
+  peuplerBD() {
+    this.assignmentService.peuplerBD().subscribe({
+      next: (results) => {
+        console.log('Base de données peuplée !', results);
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error('Erreur lors du peuplement de la base de données', error);
+      }
+    });
+  }
 
   doSomething() {
     // Charge la page "/list-devoirs"
@@ -70,6 +76,12 @@ export class AppComponent implements OnInit {
     this.authService.logOut();
     this.currentUser = null;
     this.router.navigate(['/login']); // Redirigez vers la page d'accueil après la déconnexion.
+  }
+
+  // Cette méthode détermine si l'URL actuelle est la page d'accueil
+  isHomePage(): boolean {
+    //this.afficheButton = true;
+    return this.router.url === '/';
   }
   
 

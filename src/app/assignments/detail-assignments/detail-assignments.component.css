@@ -8,3 +8,7 @@
 .container {
     min-height: 300px;
 }
+
+.detail {
+    min-height: 450px;
+}
