@@ -1,3 +1,24 @@
+/* Style par défaut pour les écrans plus larges */
+mat-toolbar {
+  height: 60px; /* Hauteur standard pour les grands écrans */
+  /* Autres styles généraux */
+}
+
+/* Réduction de la hauteur pour les tablettes */
+@media (max-width: 768px) {
+  mat-toolbar {
+    height: 50px; /* Hauteur réduite pour les tablettes */
+  }
+}
+
+/* Réduction supplémentaire pour les téléphones mobiles */
+@media (max-width: 480px) {
+  mat-toolbar {
+    height: 40px; /* Hauteur encore plus réduite pour les téléphones mobiles */
+  }
+}
+
+
 h1 {
     color:red;
 }

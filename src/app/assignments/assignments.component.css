@@ -65,7 +65,7 @@ table tr td {
 h2 {
     text-align: center;
     margin: 25px;
-    font-size: 3em;
+    font-size: auto;
     font-style: italic;
     color:blueviolet;
 }
@@ -81,6 +81,7 @@ h3 {
 
 h1 {
     text-align: center;
+    font-size: auto;
     margin: 10px;
     color:red;
     font-weight: bold;
