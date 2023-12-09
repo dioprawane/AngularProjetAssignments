@@ -11,7 +11,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Mon application Angular sur les assignments !';
+  title = 'Angular WebApp on assignments !';
   nomProf = 'Michel Buffa';
   x = 3;
   opened = true;
@@ -72,10 +72,14 @@ export class AppComponent implements OnInit {
     }
   }
 
+  isLoggedIn():boolean{
+    return this.authService.loggedIn
+  }
+
   logOut() {
     this.authService.logOut();
     this.currentUser = null;
-    this.router.navigate(['/login']); // Redirigez vers la page d'accueil après la déconnexion.
+    //this.router.navigate(['/']); // Redirigez vers la page d'accueil après la déconnexion.
   }
 
   // Cette méthode détermine si l'URL actuelle est la page d'accueil

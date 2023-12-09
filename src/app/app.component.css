@@ -1,5 +1,5 @@
 h1 {
-    color:red
+    color:red;
 }
 
 mat-sidenav-container {
@@ -10,16 +10,6 @@ mat-drawer {
     width: auto;
     text-align: center;
     display: table-cell;
-  }
-
-.form {
-    display: flex;
-    flex-direction: column;
-    margin: 5px;
-}
-
-.example-spacer {
-    flex: 1 1 auto;
   }
 
 .app-container {
@@ -55,36 +45,10 @@ a {
   font-size: auto;
 }
 
-.login-text {
-  margin: 20px;
-  font-size: auto;
-  color: white;
-  font-family: inherit; /* utilise la même famille de polices que le bouton "Connexion" */
-  font-size: inherit;  /* utilise la même taille de police que le bouton "Connexion" */
-}
-
-.ButLogin {
-  color: white;
-  font-family: inherit; /* utilise la même famille de polices que le bouton "Connexion" */
-  font-size: inherit;  /* utilise la même taille de police que le bouton "Connexion" */
-}
-
-/* Ceci cible spécifiquement le contenu du bouton .ButLogin */
-.ButLogin button, .ButLogin a, .ButLogin span {
-  color: white;
-}
-
-h1 {
-  text-align: center;
-  margin: 10px;
-  color:red;
-  font-weight: bold;
-}
-
-
 /* Classe appliquée lorsque c'est la page d'accueil */
 .f-home {
-  min-height: 500px;
+  margin-top: 750px;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -96,4 +60,41 @@ h1 {
   /* Ajoutez ici toute autre propriété CSS que vous souhaitez appliquer sur les autres pages */
 }
 
+mat-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content:flex-start;
+}
+
+
+.example-icon, .home-icon, h1, .composant {
+  margin-right: 10px; /* Espacement entre les éléments */
+}
+
+.example-spacer {
+  padding: 25px;
+}
+
+.composant {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin: 10px;
+  padding: 10px;
+}
+
+button[mat-button] {
+  margin-left: 10px; /* Espacement à gauche du bouton */
+}
+
+.deconnecteeButton{
+  margin-left: auto;
+  display: block;
+}
+
+.example-spacer2 {
+  margin-left: 10vw;  /* Utilise un pourcentage de la largeur de la fenêtre de visualisation */
+  padding-right: 1vw;
+}
 

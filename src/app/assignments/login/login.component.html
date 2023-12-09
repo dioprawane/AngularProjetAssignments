@@ -1,4 +1,4 @@
-<div class="login">
+<!--<div class="login">
     <div class="login-container">
         <h2>Connexion</h2>
         <form (submit)="onLoginSubmit()">
@@ -16,3 +16,28 @@
         </form>
     </div>
 </div>
+-->
+
+<form class="login" #formAssignment >
+    <mat-form-field>
+      <input
+             matInput
+             placeholder="Username"
+             [(ngModel)]="userLogin"
+             name="login" required>
+    </mat-form-field>&nbsp;
+    <mat-form-field>
+      <input
+             matInput
+             type="password"
+             placeholder="password"
+             [(ngModel)]="userPassword"
+             name="password" required>
+    </mat-form-field>&nbsp;
+    <button type="button" mat-flat-button color="primary"
+            (click)="onLoginSubmit() ; formAssignment.reset"
+    > Connexion
+    </button >
+  </form>
+  
+  

@@ -1,29 +1,32 @@
+<router-outlet></router-outlet>
 <mat-toolbar color="primary">
-  <button mat-icon-button (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <h1>
-    <nav><a routerLink="/home">{{title}}</a></nav>
-  </h1>
-  <span class="example-spacer"></span>
-  <button mat-icon-button class="example-icon home-icon" aria-label="Example icon-button with heart icon" routerLink="/home">
-    <mat-icon>home</mat-icon>
-  </button>
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1>
+      <nav><a routerLink="/home">{{title}}</a></nav>
+    </h1>
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon home-icon" aria-label="Example icon-button with heart icon" routerLink="/home">
+      <mat-icon>home</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
 
-
-  <span *ngIf="currentUser">
-    <!-- Ce bouton déclenche le menu déroulant -->
-    <button mat-button [matMenuTriggerFor]="menu">{{currentUser.login}}</button>
-    <!-- Définition du menu déroulant -->
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/connexion" disabled>Connecté en tant que {{currentUser.login}}</button>
-      <button mat-menu-item routerLink="/connexion" (click)="logOut()">Se déconnecter</button>
-    </mat-menu>
-  </span>
-  
-   <!-- Si l'utilisateur n'est PAS connecté, affichez le bouton de connexion -->
-  <button *ngIf="currentUser==null" routerLink="/connexion" mat-button>Connexion</button>
-  
+     &nbsp;
+    <div class="composant">
+      <a *ngIf="!isLoggedIn()"> 
+        <app-login></app-login>
+      </a>
+      <span class="example-spacer2"></span>
+      <a *ngIf="isLoggedIn()" mat-button>
+        Connecté en tant que {{currentUser.login}}
+      </a>
+      <a *ngIf="isLoggedIn()" mat-button (click)="logOut()"> 
+        <button mat-button color="accent"> <mat-icon>logout</mat-icon>Se déconnecter</button> 
+      </a>
+    </div>
+  </mat-toolbar-row>  
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -54,7 +57,6 @@
 
 
 <!-- Utilisez ngClass pour appliquer conditionnellement une classe en fonction de l'URL -->
-<div [ngClass]="{'f-home': isHomePage(), 'f': !isHomePage()}">
+<div class="footers" [ngClass]="{'f-home': isHomePage(), 'f': !isHomePage()}">
   <app-footer></app-footer>
 </div>
-

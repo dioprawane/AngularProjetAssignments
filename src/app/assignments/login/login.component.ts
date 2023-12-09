@@ -25,10 +25,5 @@ export class LoginComponent {
       alert("Login ou mot de passe incorrect ! \nVous devez vous connecter pour accéder aux autres pages/fonctionnalités.\nIdentifiants de connexion :\n- Admin : login : admin, mot de passe : passwordAdmin\n- User : login : user1, mot de passe : password1");
     }
   }
-
-  /*onUser () {
-    this.currentUsers = this.authService.getCurrentUser();
-    console.log("currentUser", this.currentUsers);
-  }*/
-
+  
 }
