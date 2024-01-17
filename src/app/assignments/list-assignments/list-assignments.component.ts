@@ -32,6 +32,7 @@ export class ListAssignmentsComponent implements OnInit {
       // Vérifier si l'utilisateur est connecté
       if(!this.currentUser) {
         this.router.navigate(['/home']);
+        this.router.navigate(['/list']);
       }
     });
   }

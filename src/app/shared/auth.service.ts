@@ -72,19 +72,12 @@ export class AuthService {
     return this.loggedIn;
   }
 
-  // renvoie une promesse qui, lorsuq'elle sera "résolved", renvoie si l'utilsiateur est admin ou pas
-  // Pour le moment, renvoie true s'il est loggé..
-  /*isAdmin() {
-    const isUserAdmin = new Promise(
-      (resolve, reject) => {
-        resolve(this.loggedIn);
-      }
-    );
-    return isUserAdmin;
-  }*/
-
   isAdmin() {
     return this.loggedIn && this.currentUser.role === 'admin';
+  }
+
+  isConnected() {
+    return (this.loggedIn && this.currentUser.role === 'admin') || (this.loggedIn && this.currentUser.role === 'user');
   }
 
   findUser(login: string, password: string) {

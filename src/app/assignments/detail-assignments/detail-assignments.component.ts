@@ -13,6 +13,7 @@ export class DetailAssignmentsComponent implements OnInit {
 
   /*@Input()*/  assignmentTransmis?: Assignment;
   @Output() deleteAssignment = new EventEmitter<Assignment>();
+  currentUser: any = null;
   
 
   constructor(
@@ -24,6 +25,9 @@ export class DetailAssignmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssignment();
+    this.authService.userObservable$.subscribe(user => {
+      this.currentUser = user;});
+      console.log("currentUser de app.components : ", this.currentUser);
   }
 
   getAssignment() {
@@ -46,15 +50,18 @@ export class DetailAssignmentsComponent implements OnInit {
     //this.assignmentTransmis = null;
   }
 
+// Vérifier si l'utilisateur est connecté
 onAssignmentRendu() {
-  if (this.assignmentTransmis) {
-    this.assignmentTransmis.rendu = true;
+  if(this.currentUser != null) { 
+    if (this.assignmentTransmis) {
+      this.assignmentTransmis.rendu = true;
 
-    this.assignmentsService.updateAssignment(this.assignmentTransmis).subscribe((message) => {
-        console.log(message);
-        // Naviguer vers "/list" une fois la mise à jour effectuée
-        this.router.navigate(['/list']);
-    });
+      this.assignmentsService.updateAssignment(this.assignmentTransmis).subscribe((message) => {
+          console.log(message);
+          // Naviguer vers "/list" une fois la mise à jour effectuée
+          this.router.navigate(['/list']);
+      });
+    }
   }
 }
 
@@ -65,6 +72,10 @@ onClickEdit() {
 
 isAdmin() : boolean {
   return this.authService.isAdmin();
+}
+
+isConnected() : boolean {
+  return this.authService.isConnected();
 }
 
 }

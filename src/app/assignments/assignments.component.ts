@@ -18,7 +18,6 @@ export class AssignmentsComponent implements OnInit {
   assignments:Assignment[] = [];
   currentUser: any = null;
   afficheMessage: boolean = false;
-
   
   assignmentSelectionne?:Assignment;
 
@@ -75,8 +74,7 @@ export class AssignmentsComponent implements OnInit {
       this.router.navigate([route]);
       this.afficheMessage = false;
     } else {
-      this.router.navigate(['/home']);
-      this.afficheMessage = true;
+      this.router.navigate([route]);
     }
   }
 

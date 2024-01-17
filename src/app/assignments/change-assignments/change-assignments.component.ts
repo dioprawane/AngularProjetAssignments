@@ -65,6 +65,10 @@ export class ChangeAssignmentsComponent {
     return this.authService.isAdmin();
   }
 
+  isConnected() : boolean {
+    return this.authService.isConnected();
+  }
+
   onAssignmentRendu() {
     if (this.selectedAssignment) {
       this.selectedAssignment.rendu = true;
