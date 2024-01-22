@@ -45,7 +45,7 @@
   </mat-drawer>
   <mat-drawer-content>
     <!-- Afficher le message si l'utilisateur n'est pas connecté -->
-    <h1 *ngIf="afficheMessage" class="alert-message">Vous n'êtes pas connecté, veuillez vous connecter</h1>
+    <!--<h1 *ngIf="afficheMessage" class="alert-message">Vous n'êtes pas connecté, veuillez vous connecter</h1>-->
     <router-outlet></router-outlet>
     <!--Ajout footer-->
   </mat-drawer-content>
@@ -53,8 +53,9 @@
 </mat-sidenav-container>
 
 <!-- Bouton pour peupler la base de données -->
-<button *ngIf="afficheButton" class="matButRaised" mat-raised-button color="primary" (click)="peuplerBD()" disabled>Peupler la base de données</button>
-
+<button *ngIf="afficheButton" class="matButRaised" mat-raised-button color="primary" (click)="peuplerBD()" disabled>Peupler la base de données Assignments</button>
+<button *ngIf="afficheButton" class="matButRaised" mat-raised-button color="primary" (click)="peuplerBDMatieres()">Peupler la base de données Matières</button>
+<button *ngIf="afficheButton" class="matButRaised" mat-raised-button color="primary" (click)="peuplerBDEleves()">Peupler la base de données Elèves</button>
 
 <!-- Utilisez ngClass pour appliquer conditionnellement une classe en fonction de l'URL -->
 <div class="footers" [ngClass]="{'f-home': isHomePage(), 'f': !isHomePage()}">

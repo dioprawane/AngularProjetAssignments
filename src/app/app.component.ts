@@ -3,6 +3,8 @@ import { AuthService } from './shared/auth.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { AssignmentsService } from './shared/assignments.service';
 import { filter } from 'rxjs/operators';
+import { MatieresService } from './shared/matieres.service';
+import { ElevesService } from './shared/eleves.service';
 
 
 @Component({
@@ -20,7 +22,7 @@ export class AppComponent implements OnInit {
 
   drawer: any;
 
-  constructor(private authService:AuthService, private router: Router, private assignmentService:AssignmentsService, private changeDetector: ChangeDetectorRef) {}
+  constructor(private authService:AuthService, private router: Router, private assignmentService:AssignmentsService, private changeDetector: ChangeDetectorRef, private matiereService:MatieresService, private eleveService:ElevesService) {}
 
   currentUser: any = null;
 
@@ -52,6 +54,30 @@ export class AppComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erreur lors du peuplement de la base de données', error);
+      }
+    });
+  }
+
+  peuplerBDMatieres() {
+    this.matiereService.peuplerBD().subscribe({
+      next: (results) => {
+        console.log('Base de données matières peuplée !', results);
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error('Erreur lors du peuplement de la base de données matières', error);
+      }
+    });
+  }
+
+  peuplerBDEleves() {
+    this.eleveService.peuplerBD().subscribe({
+      next: (results) => {
+        console.log('Base de données élèves peuplée !', results);
+        window.location.reload();
+      },
+      error: (error) => {
+        console.error('Erreur lors du peuplement de la base de données élèves', error);
       }
     });
   }

@@ -39,6 +39,8 @@ import { authGuard } from './shared/auth.guard';
 import { RouterModule, Routes } from '@angular/router';
 import { EditAssignmentsComponent } from './assignments/edit-assignments/edit-assignments.component';
 import { LoginComponent } from './assignments/login/login.component';
+import { MatieresService } from './shared/matieres.service';
+import { ElevesService } from './shared/eleves.service';
 
 const routes: Routes = [
   { path: 'home', component: AssignmentsComponent},
@@ -98,7 +100,7 @@ const routes: Routes = [
     MatPaginatorModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [AssignmentsService, LoggingService, AuthService],
+  providers: [AssignmentsService, LoggingService, AuthService, MatieresService, ElevesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
