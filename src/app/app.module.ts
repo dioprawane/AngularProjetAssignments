@@ -42,6 +42,10 @@ import { EditAssignmentsComponent } from './assignments/edit-assignments/edit-as
 import { LoginComponent } from './assignments/login/login.component';
 import { MatieresService } from './shared/matieres.service';
 import { ElevesService } from './shared/eleves.service';
+import { CustomMatPaginatorIntl } from './shared/custom-mat-paginator-intl';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatRadioModule } from '@angular/material/radio';
 
 const routes: Routes = [
   { path: 'home', component: AssignmentsComponent},
@@ -75,7 +79,7 @@ const routes: Routes = [
     DetailAssignmentsComponent,
     FooterComponent,
     EditAssignmentsComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,9 +104,11 @@ const routes: Routes = [
     NgxPaginationModule,
     MatPaginatorModule,
     RouterModule.forRoot(routes),
-    MatTableModule
+    MatTableModule,
+    MatSortModule,
+    MatRadioModule
   ],
-  providers: [AssignmentsService, LoggingService, AuthService, MatieresService, ElevesService],
+  providers: [AssignmentsService, LoggingService, AuthService, MatieresService, ElevesService, { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

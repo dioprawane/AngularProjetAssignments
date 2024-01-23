@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-assignments',
@@ -13,22 +15,28 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 
 export class AssignmentsComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu', 'remarque', 'eleveNom', 'elevePrenom', 'note', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere'];
+  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu', 'remarque', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere'];
   flatAssignments = new MatTableDataSource<any>(); // Utilisez MatTableDataSource
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   
 
   titre = "Formulaire d'ajout d'un devoir";
   ajoutActive = false;
   color = 'green';
   id="monParagraphe";
+  originalAssignments: Assignment[] = [];
   assignments:Assignment[] = [];
   currentUser: any = null;
   afficheMessage: boolean = false;
   
   assignmentSelectionne?:Assignment;
 
-  constructor(private assignmentService:AssignmentsService, private authService: AuthService, private router: Router) { } 
+  constructor(
+    private assignmentService:AssignmentsService, 
+    private authService: AuthService, 
+    private router: Router,
+    private changeDetectorRefs: ChangeDetectorRef) { } 
 
   ngOnInit() {
     //this.assignments = this.assignmentService.getAssignments();
@@ -39,39 +47,43 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     console.log("currentUser de app.components : ", this.currentUser);
   }
 
+  ngAfterViewInit() {
+    this.flatAssignments.sort = this.sort;
+    this.flatAssignments.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'nomMatiere': return item.matiere.nom;
+        case 'enseignant': return item.matiere.enseignant;
+        default: return item[property];
+      }
+    };
+
+    this.sort.sortChange.subscribe(() => this.applySort());
+  }
+
+  applySort() {
+    const data = this.flatAssignments.data.slice();
+    if (!this.sort.active || this.sort.direction === '') {
+      this.flatAssignments.data = data;
+      return;
+    }
+
+    this.flatAssignments.data = data.sort((a, b) => {
+      const isAsc = this.sort.direction === 'asc';
+      switch (this.sort.active) {
+        case 'nomMatiere': return compare(a.matiere.nom, b.matiere.nom, isAsc);
+        case 'enseignant': return compare(a.matiere.enseignant, b.matiere.enseignant, isAsc);
+        default: return compare(a[this.sort.active], b[this.sort.active], isAsc);
+        }
+      });
+    }
+
   getAssignments() {
     this.assignmentService.getAssignments().subscribe(assignments => {
       this.assignments = assignments;
-      this.flattenAssignments();
-      this.flatAssignments.paginator = this.paginator; // Lier le paginator ici
+      this.originalAssignments = assignments;
+      this.flatAssignments.data = assignments;
+      this.flatAssignments.paginator = this.paginator;
     });
-  }
-
-  flattenAssignments() {
-    const flattenedData = [];
-    this.assignments.forEach(assignment => {
-      assignment.eleves.forEach(eleve => {
-        flattenedData.push({
-          id: assignment.id,
-          nom: assignment.nom,
-          dateDeRendu: assignment.dateDeRendu,
-          rendu: assignment.rendu,
-          remarque: assignment.remarque,
-          eleveNom: eleve.nom,
-          elevePrenom: eleve.prenom,
-          note: eleve.note,
-          nomMatiere: assignment.matiere.nom,
-          enseignant: assignment.matiere.enseignant,
-          imageProf: assignment.matiere.imageProf,
-          imageMatiere: assignment.matiere.imageMatiere
-        });
-      });
-    });
-    this.flatAssignments.data = flattenedData;
-    console.log("flattenedData : ", flattenedData);
-  }
-
-  ngAfterViewInit() {
   }
   
 
@@ -117,7 +129,33 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  
+  /*toggleRendu(event: MatCheckboxChange) {
+    if (event.checked) {
+      this.flatAssignments.data = this.flatAssignments.data.filter(a => a.rendu);
+    } else {
+      this.getAssignments(); // ou utilisez une copie originale des données
+    }
+    this.changeDetectorRefs.detectChanges(); // Informe Angular d'un changement
+  }*/
 
+  applyFilter(filterValue: string) {
+    switch (filterValue) {
+      case 'all':
+        this.getAssignments();
+        break;
+      case 'rendu':
+        this.flatAssignments.data = this.flatAssignments.data.filter(a => a.rendu);
+        //this.assignments = this.originalAssignments.filter(a => a.rendu);
+        break;
+      case 'nonRendu':
+        this.flatAssignments.data = this.flatAssignments.data.filter(a => !a.rendu);
+        //this.assignments = this.originalAssignments.filter(a => !a.rendu);
+        break;
+    }
+  }
 
+}
+
+function compare(a: string | number, b: string | number, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
