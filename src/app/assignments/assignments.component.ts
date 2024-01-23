@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 })
 
 export class AssignmentsComponent implements OnInit {
+  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu', 'remarque', 'idEleve', 'eleveNom', 'elevePrenom', 'note', 'idMatiere', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere'];
+  flatAssignments: any[] = []; // Cette structure contiendra vos données aplatie
+
   titre = "Formulaire d'ajout d'un devoir";
   ajoutActive = false;
   color = 'green';
@@ -33,8 +36,36 @@ export class AssignmentsComponent implements OnInit {
   }
 
   getAssignments() {
-    this.assignmentService.getAssignments().subscribe(assignments => this.assignments = assignments);
+    this.assignmentService.getAssignments().subscribe(assignments => {
+      this.assignments = assignments;
+      this.flattenAssignments();
+    });
   }
+
+  flattenAssignments() {
+    this.flatAssignments = [];
+    this.assignments.forEach(assignment => {
+      assignment.eleves.forEach(eleve => {
+        this.flatAssignments.push({
+          id: assignment.id,
+          nom: assignment.nom,
+          dateDeRendu: assignment.dateDeRendu,
+          rendu: assignment.rendu,
+          remarque: assignment.remarque,
+          idEleve: eleve.idEleve, // Assurez-vous que c'est idEleve et non id
+          eleveNom: eleve.nom,
+          elevePrenom: eleve.prenom,
+          note: eleve.note,
+          idMatiere: assignment.matiere.idMatiere,
+          nomMatiere: assignment.matiere.nom,
+          enseignant: assignment.matiere.enseignant,
+          imageProf: assignment.matiere.imageProf,
+          imageMatiere: assignment.matiere.imageMatiere
+        });
+      });
+    });
+  }
+  
 
   getDescription() {
     return 'Je suis un sous composant';

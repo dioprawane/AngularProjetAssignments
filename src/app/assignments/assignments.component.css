@@ -86,3 +86,14 @@ h1 {
     color:red;
     font-weight: bold;
 }
+
+table {
+    width: 100%;
+  }
+
+img{
+    width: 75px;
+    height: 75px;
+    position: relative;
+}
+  

@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -98,7 +99,8 @@ const routes: Routes = [
     MatSlideToggleModule,
     NgxPaginationModule,
     MatPaginatorModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    MatTableModule
   ],
   providers: [AssignmentsService, LoggingService, AuthService, MatieresService, ElevesService],
   bootstrap: [AppComponent]

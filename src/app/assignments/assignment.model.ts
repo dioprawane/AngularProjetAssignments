@@ -7,4 +7,6 @@ export class Assignment {
     dateDeRendu!: Date;
     rendu!: boolean;
     remarque!: string;
+    eleves!: any[];
+    matiere!: any;
 }

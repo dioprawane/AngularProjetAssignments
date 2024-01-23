@@ -4,7 +4,7 @@
   <!-- Afficher le message si l'utilisateur n'est pas connecté -->
   <!--<h1 *ngIf="afficheMessage" class="alert-message">Vous n'êtes pas connecté, veuillez vous connecter</h1>-->
 
-  <div class="AjouerBnt">
+  <!-- <div class="AjouerBnt">
     <button (click)="navigateTo('/add')" mat-raised-button color="accent"
                 class="btnAjout">Ajout Assignment
     </button>
@@ -20,7 +20,106 @@
     <button (click)="navigateTo('/tests')" mat-raised-button color="accent"
                 class="btnAjout">Generating test data
     </button>
+  </div> -->
+  <div>
+    <table mat-table [dataSource]="flatAssignments" class="mat-elevation-z8">
+      <!-- Colonne ID, Nom, Date de Rendu, Rendu, Remarque, Matiere -->
+      <!-- ... (comme précédemment) ... -->
+      <!-- Colonne ID -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+      </ng-container>
+
+      <!-- Colonne Nom -->
+      <ng-container matColumnDef="nom">
+        <th mat-header-cell *matHeaderCellDef> Nom </th>
+        <td mat-cell *matCellDef="let assignment"> {{assignment.nom}} </td>
+      </ng-container>
+  
+      <!-- Colonne Date de Rendu -->
+      <ng-container matColumnDef="dateDeRendu">
+        <th mat-header-cell *matHeaderCellDef> Date de Rendu </th>
+        <td mat-cell *matCellDef="let assignment"> {{assignment.dateDeRendu | date}} </td>
+      </ng-container>
+  
+      <!-- Colonne Rendu -->
+      <ng-container matColumnDef="rendu">
+        <th mat-header-cell *matHeaderCellDef> Rendu </th>
+        <td mat-cell *matCellDef="let assignment"> {{assignment.rendu ? 'Oui' : 'Non'}} </td>
+      </ng-container>
+
+      <!-- Colonne Remarque -->
+      <ng-container matColumnDef="remarque">
+        <th mat-header-cell *matHeaderCellDef> Remarque </th>
+        <td mat-cell *matCellDef="let assignment"> {{assignment.remarque}} </td>
+      </ng-container>
+
+      <!-- Colonne id Eleve -->
+      <ng-container matColumnDef="idEleve">
+        <th mat-header-cell *matHeaderCellDef> id Élève </th>
+        <td mat-cell *matCellDef="let row"> {{row.idEleve}} </td>
+      </ng-container>
+
+  
+      <!-- Colonne Nom Eleve -->
+      <ng-container matColumnDef="eleveNom">
+        <th mat-header-cell *matHeaderCellDef> Nom Élève </th>
+        <td mat-cell *matCellDef="let row"> {{row.eleveNom}} </td>
+      </ng-container>
+  
+      <!-- Colonne Prénom Eleve -->
+      <ng-container matColumnDef="elevePrenom">
+        <th mat-header-cell *matHeaderCellDef> Prénom Élève </th>
+        <td mat-cell *matCellDef="let row"> {{row.elevePrenom}} </td>
+      </ng-container>
+  
+      <!-- Colonne Note -->
+      <ng-container matColumnDef="note">
+        <th mat-header-cell *matHeaderCellDef> Note </th>
+        <td mat-cell *matCellDef="let row"> {{row.note}} </td>
+      </ng-container>
+
+      <!-- Colonne idMatiere -->
+      <ng-container matColumnDef="idMatiere">
+        <th mat-header-cell *matHeaderCellDef> id Matiere </th>
+        <td mat-cell *matCellDef="let assignment"> {{assignment.idMatiere}} </td>
+      </ng-container>
+
+      <!-- Colonne nomMatiere -->
+      <ng-container matColumnDef="nomMatiere">
+        <th mat-header-cell *matHeaderCellDef> nom Matiere </th>
+        <td mat-cell *matCellDef="let assignment"> {{assignment.nomMatiere}} </td>
+      </ng-container>
+
+      <!-- Colonne enseignant -->
+      <ng-container matColumnDef="enseignant">
+        <th mat-header-cell *matHeaderCellDef> Enseignant </th>
+        <td mat-cell *matCellDef="let assignment"> {{assignment.enseignant}} </td>
+      </ng-container>
+
+      <!-- Colonne imageProf -->
+      <ng-container matColumnDef="imageProf">
+        <th mat-header-cell *matHeaderCellDef> Image Prof </th>
+        <td mat-cell *matCellDef="let assignment"> <img [src]="assignment.imageProf"> </td>
+      </ng-container>
+
+      <!-- Colonne imageMatiere -->
+      <ng-container matColumnDef="imageMatiere">
+        <th mat-header-cell *matHeaderCellDef> image Matiere </th>
+        <td mat-cell *matCellDef="let assignment"> <img [src]="assignment.imageMatiere"> </td>
+      </ng-container>
+
+
+  
+      <!-- En-têtes de colonnes -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+      <!-- Lignes de données -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
   </div>
+  
 </main>
 
 <!--<main class="container">

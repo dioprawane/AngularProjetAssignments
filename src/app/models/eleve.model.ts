@@ -3,5 +3,4 @@ export class Eleve {
     idEleve!: number;
     nom!: string;
     prenom!: string;
-    note!: number;
 }
