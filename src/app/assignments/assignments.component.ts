@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { AuthService } from '../shared/auth.service';
 import { Router } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-assignments',
@@ -10,9 +12,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./assignments.component.css']
 })
 
-export class AssignmentsComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu', 'remarque', 'idEleve', 'eleveNom', 'elevePrenom', 'note', 'idMatiere', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere'];
-  flatAssignments: any[] = []; // Cette structure contiendra vos données aplatie
+export class AssignmentsComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu', 'remarque', 'eleveNom', 'elevePrenom', 'note', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere'];
+  flatAssignments = new MatTableDataSource<any>(); // Utilisez MatTableDataSource
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  
 
   titre = "Formulaire d'ajout d'un devoir";
   ajoutActive = false;
@@ -39,24 +43,23 @@ export class AssignmentsComponent implements OnInit {
     this.assignmentService.getAssignments().subscribe(assignments => {
       this.assignments = assignments;
       this.flattenAssignments();
+      this.flatAssignments.paginator = this.paginator; // Lier le paginator ici
     });
   }
 
   flattenAssignments() {
-    this.flatAssignments = [];
+    const flattenedData = [];
     this.assignments.forEach(assignment => {
       assignment.eleves.forEach(eleve => {
-        this.flatAssignments.push({
+        flattenedData.push({
           id: assignment.id,
           nom: assignment.nom,
           dateDeRendu: assignment.dateDeRendu,
           rendu: assignment.rendu,
           remarque: assignment.remarque,
-          idEleve: eleve.idEleve, // Assurez-vous que c'est idEleve et non id
           eleveNom: eleve.nom,
           elevePrenom: eleve.prenom,
           note: eleve.note,
-          idMatiere: assignment.matiere.idMatiere,
           nomMatiere: assignment.matiere.nom,
           enseignant: assignment.matiere.enseignant,
           imageProf: assignment.matiere.imageProf,
@@ -64,6 +67,11 @@ export class AssignmentsComponent implements OnInit {
         });
       });
     });
+    this.flatAssignments.data = flattenedData;
+    console.log("flattenedData : ", flattenedData);
+  }
+
+  ngAfterViewInit() {
   }
   
 

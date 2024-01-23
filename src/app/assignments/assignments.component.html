@@ -28,37 +28,31 @@
       <!-- Colonne ID -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.id}} </td>
       </ng-container>
 
       <!-- Colonne Nom -->
       <ng-container matColumnDef="nom">
         <th mat-header-cell *matHeaderCellDef> Nom </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.nom}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.nom}} </td>
       </ng-container>
   
       <!-- Colonne Date de Rendu -->
       <ng-container matColumnDef="dateDeRendu">
         <th mat-header-cell *matHeaderCellDef> Date de Rendu </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.dateDeRendu | date}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.dateDeRendu | date}} </td>
       </ng-container>
   
       <!-- Colonne Rendu -->
       <ng-container matColumnDef="rendu">
         <th mat-header-cell *matHeaderCellDef> Rendu </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.rendu ? 'Oui' : 'Non'}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.rendu ? 'Oui' : 'Non'}} </td>
       </ng-container>
 
       <!-- Colonne Remarque -->
       <ng-container matColumnDef="remarque">
         <th mat-header-cell *matHeaderCellDef> Remarque </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.remarque}} </td>
-      </ng-container>
-
-      <!-- Colonne id Eleve -->
-      <ng-container matColumnDef="idEleve">
-        <th mat-header-cell *matHeaderCellDef> id Élève </th>
-        <td mat-cell *matCellDef="let row"> {{row.idEleve}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.remarque}} </td>
       </ng-container>
 
   
@@ -80,37 +74,29 @@
         <td mat-cell *matCellDef="let row"> {{row.note}} </td>
       </ng-container>
 
-      <!-- Colonne idMatiere -->
-      <ng-container matColumnDef="idMatiere">
-        <th mat-header-cell *matHeaderCellDef> id Matiere </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.idMatiere}} </td>
-      </ng-container>
-
       <!-- Colonne nomMatiere -->
       <ng-container matColumnDef="nomMatiere">
         <th mat-header-cell *matHeaderCellDef> nom Matiere </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.nomMatiere}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.nomMatiere}} </td>
       </ng-container>
 
       <!-- Colonne enseignant -->
       <ng-container matColumnDef="enseignant">
         <th mat-header-cell *matHeaderCellDef> Enseignant </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.enseignant}} </td>
+        <td mat-cell *matCellDef="let row"> {{row.enseignant}} </td>
       </ng-container>
 
       <!-- Colonne imageProf -->
       <ng-container matColumnDef="imageProf">
         <th mat-header-cell *matHeaderCellDef> Image Prof </th>
-        <td mat-cell *matCellDef="let assignment"> <img [src]="assignment.imageProf"> </td>
+        <td mat-cell *matCellDef="let row"> <img [src]="row.imageProf"> </td>
       </ng-container>
 
       <!-- Colonne imageMatiere -->
       <ng-container matColumnDef="imageMatiere">
         <th mat-header-cell *matHeaderCellDef> image Matiere </th>
-        <td mat-cell *matCellDef="let assignment"> <img [src]="assignment.imageMatiere"> </td>
+        <td mat-cell *matCellDef="let row"> <img [src]="row.imageMatiere"> </td>
       </ng-container>
-
-
   
       <!-- En-têtes de colonnes -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -118,6 +104,7 @@
       <!-- Lignes de données -->
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <mat-paginator [pageSize]="50" [pageSizeOptions]="[50, 100, 200]" showFirstLastButtons></mat-paginator>
   </div>
   
 </main>
