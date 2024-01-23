@@ -12,7 +12,7 @@ export class MatieresService {
 
   constructor(private http: HttpClient) { }
 
-  url = "https://service1-projet-angular.onrender.com/api/matieres";
+  url = "https://service1-projet-angular.onrender.com/api/assignments";
 
   peuplerBD(): Observable<Matiere[]> {
     const calls = matieres.map((matiere) => this.addMatiere(matiere));
