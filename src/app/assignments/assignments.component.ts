@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatRadioChange } from '@angular/material/radio';
 
 @Component({
   selector: 'app-assignments',
@@ -141,17 +140,15 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   applyFilter(filterValue: string) {
     switch (filterValue) {
       case 'all':
-        this.getAssignments();
+        this.flatAssignments.data = [...this.originalAssignments]; // Réinitialiser avec les données originales
         break;
       case 'rendu':
-        this.flatAssignments.data = this.flatAssignments.data.filter(a => a.rendu);
-        //this.assignments = this.originalAssignments.filter(a => a.rendu);
-        break;
       case 'nonRendu':
-        this.flatAssignments.data = this.flatAssignments.data.filter(a => !a.rendu);
-        //this.assignments = this.originalAssignments.filter(a => !a.rendu);
+        const isRendu = filterValue === 'rendu';
+        this.flatAssignments.data = this.originalAssignments.filter(a => a.rendu === isRendu);
         break;
     }
+    this.changeDetectorRefs.detectChanges(); // Informer Angular du changement
   }
 
 }
