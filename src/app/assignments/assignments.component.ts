@@ -151,6 +151,26 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     this.changeDetectorRefs.detectChanges(); // Informer Angular du changement
   }
 
+  onSearchInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.applySearch(input.value);
+  }
+
+  // Méthode pour filtrer les assignments
+  applySearch(searchValue: string) {
+    let filteredAssignments: Assignment[];
+    if (!searchValue) {
+      filteredAssignments = this.originalAssignments; // Assurez-vous que 'originalAssignments' est bien de type Assignment[]
+    } else {
+      filteredAssignments = this.originalAssignments.filter(assignment =>
+        assignment.nom.toLowerCase().includes(searchValue.toLowerCase())
+      );
+    }
+    // Conversion en MatTableDataSource
+    this.flatAssignments = new MatTableDataSource(filteredAssignments);
+  }
+
+  
 }
 
 function compare(a: string | number, b: string | number, isAsc: boolean) {

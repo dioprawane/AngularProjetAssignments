@@ -150,3 +150,18 @@ img{
   color: #0d47a1; /* Couleur du texte pour l'en-tête triée */
   font-weight: bold; /* Rend le texte plus gras */
 }
+
+.search-container {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+  }
+  
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 10px;
+    /*min-width: 250px;*/
+    box-sizing: border-box;
+}
+  

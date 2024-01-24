@@ -1,8 +1,10 @@
-import { Component, OnInit /*EventEmitter, Output*/ } from '@angular/core';
+import { Component, OnInit, ViewChild /*EventEmitter, Output*/ } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-add-assignments',
@@ -13,14 +15,37 @@ export class AddAssignmentsComponent implements OnInit {
   // Evenement qu'on enverra au père avec la soumission
   // du formulaire
   //@Output() nouvelAssignment = new EventEmitter<Assignment>();
+  assignmentForm: FormGroup;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+  @ViewChild('stepper') stepper: MatStepper;
 
   // pour le formulaire
   nomDevoir:string="";
   dateRendu:Date;
+  remarque:string="";
+  matiere:string; // Pour la liste déroulante
   afficheMessage: boolean = false;
   currentUser: any = null;
+  matieres = [
+    {"idMatiere": 1, "nom": "IA pour le Web", "enseignant": "M. Winter", "imageMatiere": "../../assets/ia.png", "imageProf": "assets/Winter.png"},
+    {"idMatiere": 2, "nom": "Javascript et HTML", "enseignant": "M. Buffa", "imageMatiere": "../../assets/html.png", "imageProf": "assets/Michel-Buffa.jpg"},
+    {"idMatiere": 3, "nom": "Fonctionnement des SGBD", "enseignant": "M. Galli", "imageMatiere": "../../assets/bdd.png", "imageProf": "assets/gali.jpg"},
+    {"idMatiere": 4, "nom": "Stratégie d’entreprise", "enseignant": "M. Tounsi", "imageMatiere": "../../assets/management.png", "imageProf": "assets/Tounsi.jpg"},
+    {"idMatiere": 5, "nom": "Mathématiques pour le Big Data", "enseignant": "M. Donati", "imageMatiere": "../../assets/axe.png", "imageProf": "assets/Donati.jpg"},
+    {"idMatiere": 6, "nom": "Analyse Financière", "enseignant": "M. Anigo", "imageMatiere": "../../assets/analyse.png", "imageProf": "assets/prof.png"},
+    {"idMatiere": 7, "nom": "Planification de projet", "enseignant": "M. Crescenzo", "imageMatiere": "../../assets/projet.png", "imageProf": "assets/Crescenzo.jpg"},
+    {"idMatiere": 8, "nom": "Programmation avancée", "enseignant": "M. Lahire", "imageMatiere": "../../assets/avancee.png", "imageProf": "assets/Lahire.jpg"},
+    {"idMatiere": 9, "nom": "Recueil des exigences", "enseignant": "Mme Mirbel", "imageMatiere": "../../assets/gestionProjet.png", "imageProf": "assets/Mirbel.jpg"},
+    {"idMatiere": 10, "nom": "Bases de données pour le Big Data", "enseignant": "M. Syska", "imageMatiere": "../../assets/bddBigData.png", "imageProf": "assets/Syska.jpg"},
+    {"idMatiere": 11, "nom": "Communication for business", "enseignant": "Mme Mirbel", "imageMatiere": "../../assets/rassembler.png", "imageProf": "assets/Frederic_Arnault.jpg"}
+];
 
-  constructor(private assignmentsService:AssignmentsService, private authService: AuthService , private router:Router) { }
+  constructor(
+    private assignmentsService:AssignmentsService, 
+    private authService: AuthService , 
+    private router:Router,
+    private _formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.authService.userObservable$.subscribe(user => {
@@ -31,21 +56,54 @@ export class AddAssignmentsComponent implements OnInit {
         this.router.navigate(['/home']);
       }
     });
+
+    this.firstFormGroup = this._formBuilder.group({
+      nomDevoir: ['', Validators.required], // Ajout du validateur 'required'
+      remarque: [''],
+      matiere: ['', Validators.required]
+    });
+    this.secondFormGroup = this._formBuilder.group({
+      dateRendu: ['']
+    });
+
+    // Si vous avez d'autres groupes, initialisez-les ici
+    this.assignmentForm = this._formBuilder.group({
+      firstFormGroup: this.firstFormGroup,
+      secondFormGroup: this.secondFormGroup
+      // Autres groupes
+    });
     
   }
 
-  onSubmit(event:any) {
+
+  onSubmit() {
+    if (this.assignmentForm.invalid) {
+      //alert("Le nom du devoir est obligatoire !");
+      return; // Arrêter la soumission si le formulaire est invalide
+    }
+
+    const selectedMatiereNom = this.firstFormGroup.get('matiere').value;
+    const selectedMatiere = this.matieres.find(m => m.nom === selectedMatiereNom);  
+
     const newAssignment = new Assignment();
-    newAssignment.nom = this.nomDevoir;
-    newAssignment.dateDeRendu = this.dateRendu;
+    newAssignment.nom = this.firstFormGroup.get('nomDevoir').value;
+    newAssignment.remarque = this.firstFormGroup.get('remarque').value;
+    newAssignment.dateDeRendu = this.secondFormGroup.get('dateRendu').value;
     newAssignment.rendu = false;
     newAssignment.id = Math.floor(Math.random() * 1000) + 1;
-
+    newAssignment.matiere = selectedMatiere;
+  
     this.assignmentsService.addAssignment(newAssignment)
-        .subscribe(message => 
-          console.log(message));
-          this.router.navigate(['list']);
-
+        .subscribe(message => {
+          console.log(message);
+          this.resetForm();
+        });
+  }
+  
+  resetForm() {
+    this.firstFormGroup.reset();
+    this.secondFormGroup.reset();
+    this.stepper.reset();
   }
 
 }

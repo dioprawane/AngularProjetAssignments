@@ -30,3 +30,43 @@ html, body {
   height: 100%; /* Fait en sorte que .form prenne toute la hauteur disponible */
   width: 100%; /* Fait en sorte que .form prenne toute la largeur disponible */
 }
+
+.add {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+mat-horizontal-stepper {
+  background-color: white;
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour les étapes individuelles */
+.mat-step-header {
+  width: calc(100% / 3); /* Répartir équitablement sur 3 étapes, ajustez selon le nombre d'étapes */
+  max-width: none; /* Pour empêcher la limitation de la largeur maximale */
+}
+
+.butA {
+  margin-top: 20px;
+}
+
+.stepper-text {
+  font-size: 18px; /* Taille de la police */
+  color: #4a4a4a; /* Couleur du texte */
+  text-align: center; /* Alignement du texte */
+  margin: 20px 0; /* Marge autour du texte */
+  font-weight: bold; /* Gras */
+  font-family: 'Arial', sans-serif; /* Police de caractères */
+}
+
+

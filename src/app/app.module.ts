@@ -46,6 +46,9 @@ import { CustomMatPaginatorIntl } from './shared/custom-mat-paginator-intl';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatStepperModule } from '@angular/material/stepper';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 const routes: Routes = [
   { path: 'home', component: AssignmentsComponent},
@@ -106,7 +109,10 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     MatTableModule,
     MatSortModule,
-    MatRadioModule
+    MatRadioModule,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatSelectModule
   ],
   providers: [AssignmentsService, LoggingService, AuthService, MatieresService, ElevesService, { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }],
   bootstrap: [AppComponent]

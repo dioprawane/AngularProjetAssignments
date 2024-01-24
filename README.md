@@ -17,17 +17,22 @@ Puis pour avoir les identifications, essayez de vous connecter avec n'importe qu
 
 ### Serigne Rawane : 
 
-## A faire[^3]
-- [x] Suivre le cours jusqu'à la page 180
-- [x] Intégrer toolbar et navbar du rendu n°1
+## Fonctionnalités intégrées[^3]
+- [x] Au moins 1000 assignments dans la base de données. 
+- [x] Ajouter une gestion de login/password :
+  - Vous ajouter dans la toolbar un formulaire login/password + bouton connexion. Une fois loggué, le formulaire disparait et seul un bouton de deconnexion apparait.
+  - Si on est loggué en tant que user autorisé on a le droit de modifier / ajouter un assignment. Si on est loggué en admin on pourra en plus supprimer des assignments. Si on n'est pas loggué on ne peut que consulter.
+  - Vous codez en dur dans le service d'authentification une liste de login/passwords valides.
 - [x] Identification par **login/password**
   - ajouter un tableau de login/password/role (avec rôle qui est soit **user** soit **admin**) dans le service d'authentification
   - modifier le code pour avoir `isLogged()` **ET** `isAdmin()` au lieu de juste `isAdmin()`
 - [x] Au lieu du slider `LogIn`, ajouter un bouton connecter (avec une *mat-icon* adaptée) qui amène à un composant avec un formulaire de connexion
-- [x] Gestion des droits :
-  - L'admin peut éditer et effacer les assignment
-  - Le user peut voir le détail des assignment
-  - Si on n'est pas logué on ne peut ni voir le détail, ni éditer
+- [x] Ajouter de nouvelles propriétés au modèle des Assignments
+  - Auteur (nom de l'élève)
+  - Matière (Base de données, Technologies Web, Grails, etc.)
+  - Une image sera associée à chaque matière et une photo du prof
+  - Note sur 20, on ne peut marquer "rendu" un Assignment qui n'a pas été noté.
+  - Remarques sur l'assignment
 
 
 [^1]: à remplir

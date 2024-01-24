@@ -1,28 +1,12 @@
 <main class="container">
   <h2>Welcome to your assignments management application !</h2>
-  
-  <!-- Afficher le message si l'utilisateur n'est pas connecté -->
-  <!--<h1 *ngIf="afficheMessage" class="alert-message">Vous n'êtes pas connecté, veuillez vous connecter</h1>-->
-
-  <!-- <div class="AjouerBnt">
-    <button (click)="navigateTo('/add')" mat-raised-button color="accent"
-                class="btnAjout">Ajout Assignment
-    </button>
-    <button (click)="navigateTo('/delete')" mat-raised-button color="accent"
-                class="btnAjout">Delete Assignment
-    </button>
-    <button (click)="navigateTo('/list')" mat-raised-button color="accent"
-                class="btnAjout">List Assignment
-    </button>
-    <button (click)="navigateTo('/change')" mat-raised-button color="accent"
-                class="btnAjout">Change Assignment
-    </button>
-    <button (click)="navigateTo('/tests')" mat-raised-button color="accent"
-                class="btnAjout">Generating test data
-    </button>
-  </div> -->
   <div class="filter-container">
+    <!-- Ajout d'un champ de recherche -->
+    <div class="search-container">
+      <input matInput placeholder="Recherche par Nom d'Assignment" (input)="onSearchInput($event)">
+    </div>
     <mat-radio-group (change)="applyFilter($event.value)">
+      <a>Filtre sur le rendu :</a>
       <mat-radio-button value="all">Tous</mat-radio-button>
       <mat-radio-button value="rendu">Rendus</mat-radio-button>
       <mat-radio-button value="nonRendu">Non Rendus</mat-radio-button>

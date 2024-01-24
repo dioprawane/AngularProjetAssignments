@@ -119,3 +119,19 @@ button[mat-button] {
   padding-right: 1vw;
 }
 
+.AjouerBnt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2rem;  /* espace entre les boutons */
+  align-items: center;
+}
+
+
+.btnAjout {
+  height: 50px;
+  font-size: auto;
+  margin: 5px;
+  width: 10%;
+}
+

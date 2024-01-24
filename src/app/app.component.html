@@ -43,6 +43,10 @@
         <button class="matButRaised" mat-raised-button color="primary" (click)="navigateTo('/delete')">Suppression d'un devoir</button>
         <button class="matButRaised" mat-raised-button color="primary" (click)="navigateTo('/tests')">Génération de données de test</button>
   </mat-drawer>
+  <!-- Afficher le message si l'utilisateur n'est pas connecté -->
+  <!--<h1 *ngIf="afficheMessage" class="alert-message">Vous n'êtes pas connecté, veuillez vous connecter</h1>-->
+
+  
   <mat-drawer-content>
     <!-- Afficher le message si l'utilisateur n'est pas connecté -->
     <!--<h1 *ngIf="afficheMessage" class="alert-message">Vous n'êtes pas connecté, veuillez vous connecter</h1>-->
@@ -56,7 +60,23 @@
 <button *ngIf="afficheButton" class="matButRaised" mat-raised-button color="primary" (click)="peuplerBD()" disabled>Peupler la base de données Assignments</button>
 <button *ngIf="afficheButton" class="matButRaised" mat-raised-button color="primary" (click)="peuplerBDMatieres()" disabled>Peupler la base de données Matières</button>
 <button *ngIf="afficheButton" class="matButRaised" mat-raised-button color="primary" (click)="peuplerBDEleves()" disabled>Peupler la base de données Elèves</button>
-
+<div *ngIf="afficheButton" class="AjouerBnt">
+  <button (click)="navigateTo('/add')" mat-raised-button color="accent"
+              class="btnAjout">Ajout Assignment
+  </button>
+  <button (click)="navigateTo('/delete')" mat-raised-button color="accent"
+              class="btnAjout">Delete Assignment
+  </button>
+  <button (click)="navigateTo('/list')" mat-raised-button color="accent"
+              class="btnAjout">List Assignment
+  </button>
+  <button (click)="navigateTo('/change')" mat-raised-button color="accent"
+              class="btnAjout">Change Assignment
+  </button>
+  <button (click)="navigateTo('/tests')" mat-raised-button color="accent"
+              class="btnAjout">Generating test data
+  </button>
+</div>
 <!-- Utilisez ngClass pour appliquer conditionnellement une classe en fonction de l'URL -->
 <div class="footers" [ngClass]="{'f-home': isHomePage(), 'f': !isHomePage()}">
   <app-footer></app-footer>
