@@ -49,6 +49,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatStepperModule } from '@angular/material/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
+import { IdService } from './shared/id.service';
 
 const routes: Routes = [
   { path: 'home', component: AssignmentsComponent},
@@ -60,9 +61,9 @@ const routes: Routes = [
   { path: 'delete', component: DeleteAssignmentsComponent },
   { path: 'tests', component: TestsDataComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'assignment/:id', component: DetailAssignmentsComponent },
+  { path: 'assignment/:_id', component: DetailAssignmentsComponent },
   { 
-    path: 'assignment/:id/edit', 
+    path: 'assignment/:_id/edit', 
     component: EditAssignmentsComponent ,
     canActivate: [authGuard]
   },
@@ -82,7 +83,7 @@ const routes: Routes = [
     DetailAssignmentsComponent,
     FooterComponent,
     EditAssignmentsComponent,
-    LoginComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -114,7 +115,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     MatSelectModule
   ],
-  providers: [AssignmentsService, LoggingService, AuthService, MatieresService, ElevesService, { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }],
+  providers: [AssignmentsService, LoggingService, AuthService, MatieresService, ElevesService, IdService, { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

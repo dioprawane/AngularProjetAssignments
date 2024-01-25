@@ -3,7 +3,7 @@
     margin-left: 5px;
     margin-right: 5px;
     padding: 10px;
-    width: 250px;
+    width: 100%;
     min-height: 430px;
     display: flex;
     flex-direction: column;

@@ -13,6 +13,7 @@ export class ElevesService {
   constructor(private http: HttpClient) { }
 
   private url = "https://service1-projet-angular.onrender.com/api/assignments";
+  private url2 = "https://service1-projet-angular.onrender.com/api/assignments--eleves";
   //private url = "http://localhost:8010/api/eleves";
 
   peuplerBD(): Observable<Eleve[]> {

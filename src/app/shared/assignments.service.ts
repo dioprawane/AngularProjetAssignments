@@ -39,7 +39,7 @@ export class AssignmentsService {
     return this.http.get<Assignment[]>(this.url, { params: params });
   }
 
-  addAssignment(assignment: Assignment): Observable<any> {
+  addAssignment(assignment: Assignment): Observable<Assignment> {
     //return of('Assignment ajouté');
     return this.http.post<Assignment>(this.url, assignment);
   }
@@ -55,8 +55,17 @@ export class AssignmentsService {
     return this.http.delete(deleteURI);
   }
 
-  getAssignment(id: number): Observable<Assignment | undefined> {
+  getAssignmentbis(id: number): Observable<Assignment | undefined> {
     return this.http.get<Assignment>(this.url + "/" + id);
   }
+
+  getAssignment(_id: { $oid: string }): Observable<Assignment | undefined> {
+    // Extraire la valeur $oid de l'objet _id
+    const id = _id.$oid;
+  
+    // Utiliser cette valeur dans l'URL de la requête
+    return this.http.get<Assignment>(`${this.url}/${id}`);
+  }
+  
 
 }

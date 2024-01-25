@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
+import { IdService } from 'src/app/shared/id.service';
 
 @Component({
   selector: 'app-add-assignments',
@@ -23,10 +24,12 @@ export class AddAssignmentsComponent implements OnInit {
   // pour le formulaire
   nomDevoir:string="";
   dateRendu:Date;
-  remarque:string="";
-  matiere:string; // Pour la liste déroulante
+  //remarque:string="";
+ // matiere:any; // Pour la liste déroulante
   afficheMessage: boolean = false;
   currentUser: any = null;
+  private dernierId = 1000; // Valeur de départ pour les IDs
+  enCoursDeSoumission: boolean = false;
   matieres = [
     {"idMatiere": 1, "nom": "IA pour le Web", "enseignant": "M. Winter", "imageMatiere": "../../assets/ia.png", "imageProf": "assets/Winter.png"},
     {"idMatiere": 2, "nom": "Javascript et HTML", "enseignant": "M. Buffa", "imageMatiere": "../../assets/html.png", "imageProf": "assets/Michel-Buffa.jpg"},
@@ -45,7 +48,9 @@ export class AddAssignmentsComponent implements OnInit {
     private assignmentsService:AssignmentsService, 
     private authService: AuthService , 
     private router:Router,
-    private _formBuilder: FormBuilder) { }
+    private _formBuilder: FormBuilder,
+    private idService: IdService
+    ) { }
 
   ngOnInit(): void {
     this.authService.userObservable$.subscribe(user => {
@@ -77,27 +82,38 @@ export class AddAssignmentsComponent implements OnInit {
 
 
   onSubmit() {
-    if (this.assignmentForm.invalid) {
+    if (this.assignmentForm.invalid || this.enCoursDeSoumission) {
       //alert("Le nom du devoir est obligatoire !");
       return; // Arrêter la soumission si le formulaire est invalide
     }
+    this.enCoursDeSoumission = true; // Début de la soumission
 
-    const selectedMatiereNom = this.firstFormGroup.get('matiere').value;
-    const selectedMatiere = this.matieres.find(m => m.nom === selectedMatiereNom);  
+    const selectedMatiereId = this.firstFormGroup.get('matiere').value;
+    const selectedMatiere = this.matieres.find(m => m.idMatiere === selectedMatiereId);
 
+
+    this.dernierId++; // Incrémenter le dernier ID utilisé
     const newAssignment = new Assignment();
+    newAssignment.id = this.idService.obtenirProchainId();
     newAssignment.nom = this.firstFormGroup.get('nomDevoir').value;
-    newAssignment.remarque = this.firstFormGroup.get('remarque').value;
     newAssignment.dateDeRendu = this.secondFormGroup.get('dateRendu').value;
     newAssignment.rendu = false;
-    newAssignment.id = Math.floor(Math.random() * 1000) + 1;
+    newAssignment.remarque = this.firstFormGroup.get('remarque').value;
+    newAssignment.eleves = [];
     newAssignment.matiere = selectedMatiere;
+    console.log("Assignment Matiere : ", newAssignment.matiere);
+    console.log("newAssignment : ", newAssignment);
   
     this.assignmentsService.addAssignment(newAssignment)
         .subscribe(message => {
           console.log(message);
           this.resetForm();
+          this.enCoursDeSoumission = false;
+          this.router.navigate(['list']);
         });
+        console.log("newAssignment : ", newAssignment);
+        console.log("selectedMatiereNom : ", selectedMatiereId);
+        console.log("selectedMatiere : ", selectedMatiere);
   }
   
   resetForm() {

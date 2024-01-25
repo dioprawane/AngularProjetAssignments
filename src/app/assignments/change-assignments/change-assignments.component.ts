@@ -29,6 +29,12 @@ export class ChangeAssignmentsComponent {
     private route: ActivatedRoute ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      const id = params['_id'];
+      if (id) {
+        this.getAssignment();
+      }
+    });
     this.loadAssignments();
     this.authService.userObservable$.subscribe(user => {
       this.currentUser = user;
@@ -42,9 +48,14 @@ export class ChangeAssignmentsComponent {
 
   //Recuperer de assignments.component.ts
   getAssignment() {
-    const id = +this.route.snapshot.params['id'];
-    this.assignmentService.getAssignment(id).subscribe(assignment => this.selectedAssignment = assignment);
+    const id = this.route.snapshot.paramMap.get('_id');
+    if (id) {
+      this.assignmentService.getAssignment({ $oid: id }).subscribe(assignment => {
+        this.selectedAssignment = assignment;
+      });
+    }
   }
+  
 
   getAssignments() {
     this.assignmentService.getAssignments().subscribe(assignments => this.assignments = assignments);

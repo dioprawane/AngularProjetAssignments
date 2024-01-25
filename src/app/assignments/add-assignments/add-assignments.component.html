@@ -55,7 +55,7 @@
         <ng-template matStepLabel>Terminer</ng-template>
         <p class="stepper-text">Tout est prêt ! Ajoutez le devoir maintenant.</p>
         <button mat-button (click)="resetForm()">Réinitialiser</button>
-        <button class="butA" mat-raised-button color="accent" (click)="onSubmit()" [disabled]="assignmentForm.invalid">Ajouter devoir</button>
+        <button class="butA" mat-raised-button color="accent" (click)="onSubmit()" [disabled]="enCoursDeSoumission || assignmentForm.invalid">Ajouter devoir</button>
       </mat-step>
     </mat-horizontal-stepper>
   </form>

@@ -20,7 +20,6 @@ export class EditAssignmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAssignment();
-
     //Affichage des queryParams et fragment
     console.log("Query Params : ");
     console.log(this.route.snapshot.queryParams);
@@ -28,18 +27,30 @@ export class EditAssignmentsComponent implements OnInit {
     console.log(this.route.snapshot.fragment);
   }
 
-  getAssignment() {
+  /*getAssignment() {
     // on récupère l'id dans le snapshot passé par le routeur
     // le "+" force l'id de type string en "number"
-    const id = +this.route.snapshot.params['id'];
+    const id = +this.route.snapshot.params['_id'];
    
-    this.assignmentsService.getAssignment(id).subscribe((assignment) => {
+    this.assignmentsService.getAssignment('_id').subscribe((assignment) => {
       if (!assignment) return;
       this.assignment = assignment;
       // Pour pré-remplir le formulaire
       this.nomAssignment = assignment.nom;
       this.dateDeRendu = assignment.dateDeRendu;
     });
+  }*/
+  getAssignment() {
+    // Récupération de l'ID en tant que string
+    const id = this.route.snapshot.paramMap.get('_id');
+    if (id) {
+      this.assignmentsService.getAssignment({ $oid: id }).subscribe((assignment) => {
+        if (!assignment) return;
+        this.assignment = assignment;
+        this.nomAssignment = assignment.nom;
+        this.dateDeRendu = assignment.dateDeRendu;
+      });
+    }
   }
 
 

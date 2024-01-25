@@ -32,6 +32,12 @@ export class DeleteAssignmentsComponent implements OnInit {
     private route: ActivatedRoute ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      const id = params['_id'];
+      if (id) {
+        this.getAssignment();
+      }
+    });
     this.loadAssignments();
     this.getAssignments();
     this.authService.userObservable$.subscribe(user => { 
@@ -45,9 +51,18 @@ export class DeleteAssignmentsComponent implements OnInit {
   }
 
   //Recuperer de assignments.component.ts
+  /*getAssignment() {
+    const id = +this.route.snapshot.params['_id'];
+    this.assignmentService.getAssignment('_id').subscribe(assignment => this.selectedAssignment = assignment);
+  }*/
+
   getAssignment() {
-    const id = +this.route.snapshot.params['id'];
-    this.assignmentService.getAssignment(id).subscribe(assignment => this.selectedAssignment = assignment);
+    const id = this.route.snapshot.paramMap.get('_id');
+    if (id) {
+      this.assignmentService.getAssignment({ $oid: id }).subscribe(assignment => {
+        this.selectedAssignment = assignment;
+      });
+    }
   }
 
   getAssignments() {

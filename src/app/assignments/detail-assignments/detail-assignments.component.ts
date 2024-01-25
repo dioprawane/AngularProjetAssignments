@@ -10,30 +10,43 @@ import { AuthService } from 'src/app/shared/auth.service';
   styleUrls: ['./detail-assignments.component.css']
 })
 export class DetailAssignmentsComponent implements OnInit {
-
-  /*@Input()*/  assignmentTransmis?: Assignment;
+  assignmentTransmis?: Assignment;
   @Output() deleteAssignment = new EventEmitter<Assignment>();
   currentUser: any = null;
-  
 
   constructor(
     private assignmentsService: AssignmentsService, 
-    private router:Router, 
+    private router: Router, 
     private route: ActivatedRoute,
     private authService: AuthService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
-    this.getAssignment();
+    this.route.params.subscribe(params => {
+      const id = params['_id'];
+      if (id) {
+        this.getAssignment();
+      }
+    });
     this.authService.userObservable$.subscribe(user => {
-      this.currentUser = user;});
-      console.log("currentUser de app.components : ", this.currentUser);
+      this.currentUser = user;
+    });
   }
 
   getAssignment() {
-    const id = +this.route.snapshot.params['id'];
-    this.assignmentsService.getAssignment(id).subscribe(assignment => this.assignmentTransmis = assignment);
+    const id = this.route.snapshot.paramMap.get('_id');
+    if (id) {
+      this.assignmentsService.getAssignment({ $oid: id }).subscribe(
+        assignment => {
+          this.assignmentTransmis = assignment;
+        },
+        error => {
+          console.error('Erreur lors de la récupération de l\'assignment:', error);
+        }
+      );
+    }
   }
+    
 
   onDeleteAssignment() {
     // ici on doit le supprimer de la liste des assignments
@@ -66,7 +79,7 @@ onAssignmentRendu() {
 }
 
 onClickEdit() {
-  this.router.navigate(['/assignment', this.assignmentTransmis.id, 'edit'],
+  this.router.navigate(['/assignment', this.assignmentTransmis._id, 'edit'],
   {queryParams: {nom: this.assignmentTransmis.nom}, fragment: 'edition'});
 }
 
