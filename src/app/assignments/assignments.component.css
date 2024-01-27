@@ -41,9 +41,8 @@ table tr td {
 .container {
     display:flex;
     flex-direction:column;
-    min-height: 450px;
     align-items: center;
-    height: 100vh;
+    overflow-y: hidden;
   }
 
 .AjouerBnt {
@@ -59,15 +58,6 @@ table tr td {
     font-size: auto;
     margin: 5px;
     width: 100%;
-}
-
-
-h2 {
-    text-align: center;
-    margin: 25px;
-    font-size: auto;
-    font-style: italic;
-    color:blueviolet;
 }
 
 a {
@@ -92,8 +82,8 @@ table {
   }
 
 img{
-    width: 75px;
-    height: 75px;
+    width: 64px;
+    height: 64px;
     position: relative;
 }
 
@@ -152,7 +142,7 @@ img{
 }
 
 .search-container {
-    margin: 20px 0;
+    margin: 10px 0;
     display: flex;
     justify-content: center;
   }
@@ -164,4 +154,8 @@ input {
     /*min-width: 250px;*/
     box-sizing: border-box;
 }
-  
+
+.example-container {
+    height: 400px;
+    overflow: auto;
+  }

@@ -14,7 +14,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 })
 
 export class AssignmentsComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'nom', 'dateDeRendu', 'rendu', 'remarque', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere'];
+  displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu', 'remarque', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere'];
   flatAssignments = new MatTableDataSource<any>(); // Utilisez MatTableDataSource
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -50,8 +50,8 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     this.flatAssignments.sort = this.sort;
     this.flatAssignments.sortingDataAccessor = (item, property) => {
       switch (property) {
-        case 'nomMatiere': return item.matiere.nom;
-        case 'enseignant': return item.matiere.enseignant;
+        case 'nomMatiere': return item.matiere_nom;
+        case 'enseignant': return item.matiere_enseignant;
         default: return item[property];
       }
     };
@@ -69,8 +69,8 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     this.flatAssignments.data = data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'nomMatiere': return compare(a.matiere.nom, b.matiere.nom, isAsc);
-        case 'enseignant': return compare(a.matiere.enseignant, b.matiere.enseignant, isAsc);
+        case 'nomMatiere': return compare(a.matiere_nom, b.matiere_nom, isAsc);
+        case 'enseignant': return compare(a.matiere_enseignant, b.matiere_enseignant, isAsc);
         default: return compare(a[this.sort.active], b[this.sort.active], isAsc);
         }
       });
@@ -169,8 +169,6 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     // Conversion en MatTableDataSource
     this.flatAssignments = new MatTableDataSource(filteredAssignments);
   }
-
-  
 }
 
 function compare(a: string | number, b: string | number, isAsc: boolean) {

@@ -5,10 +5,11 @@ import { Injectable } from '@angular/core';
 })
 export class IdService {
 
-  private dernierId = 1000;
+  private dernierId = this.getNewId() + 1000;
 
   constructor() {
     console.log('IdService instance created');
+    this.dernierId++;
   }
 
   obtenirProchainId(): number {
@@ -16,5 +17,9 @@ export class IdService {
     console.log('Attribution du nouvel ID:', this.dernierId);
     return this.dernierId;
   }
-  
+
+  getNewId(): number {
+    return Date.now();
+}
+
 }

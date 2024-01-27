@@ -1,5 +1,5 @@
 <main class="container">
-  <h2>Welcome to your assignments management application !</h2>
+  <!--<h2>Welcome to your assignments management application !</h2>-->
   <div class="filter-container">
     <!-- Ajout d'un champ de recherche -->
     <div class="search-container">
@@ -12,14 +12,8 @@
       <mat-radio-button value="nonRendu">Non Rendus</mat-radio-button>
     </mat-radio-group>
   </div>
-  <div>
-    <table mat-table [dataSource]="flatAssignments" matSort class="mat-elevation-z8">
-
-      <!-- Colonne ID avec tri -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.id}} </td>
-      </ng-container>
+  <section style="height: 400px" class="example-container mat-elevation-z8" tabindex="0">
+    <table mat-table #table [dataSource]="flatAssignments" matSort class="mat-elevation-z8">
   
       <!-- Colonne Nom avec tri -->
       <ng-container matColumnDef="nom">
@@ -48,34 +42,34 @@
       <!-- Colonne nomMatiere -->
       <ng-container matColumnDef="nomMatiere">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom Matiere </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.matiere.nom}} </td>
+        <td mat-cell *matCellDef="let assignment"> {{assignment.matiere_nom}} </td>
       </ng-container>
 
       <!-- Colonne enseignant -->
       <ng-container matColumnDef="enseignant">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Enseignant </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.matiere.enseignant}} </td>
+        <td mat-cell *matCellDef="let assignment"> {{assignment.matiere_enseignant}} </td>
       </ng-container>
 
       <!-- Colonne imageProf -->
       <ng-container matColumnDef="imageProf">
         <th mat-header-cell *matHeaderCellDef> Image Prof </th>
-        <td mat-cell *matCellDef="let assignment"> <img [src]="assignment.matiere.imageProf"> </td>
+        <td mat-cell *matCellDef="let assignment"> <img [src]="assignment.matiere_imageProf"> </td>
       </ng-container>
 
       <!-- Colonne imageMatiere -->
       <ng-container matColumnDef="imageMatiere">
         <th mat-header-cell *matHeaderCellDef> image Matiere </th>
-        <td mat-cell *matCellDef="let assignment"> <img [src]="assignment.matiere.imageMatiere"> </td>
+        <td mat-cell *matCellDef="let assignment"> <img [src]="assignment.matiere_imageMatiere"> </td>
       </ng-container>
   
       <!-- En-têtes de colonnes -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
   
       <!-- Lignes de données -->
       <tr mat-row *matRowDef="let assignment; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSize]="50" [pageSizeOptions]="[50, 100, 200, 500]" showFirstLastButtons></mat-paginator>
-  </div>
+    <mat-paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100, 200]" showFirstLastButtons></mat-paginator>
+  </section>
   
 </main>

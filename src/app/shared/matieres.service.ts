@@ -36,8 +36,8 @@ export class MatieresService {
     return this.http.delete(deleteURI);
   }
 
-  getMatiere(id: number): Observable<Matiere | undefined> {
-    return this.http.get<Matiere>(this.url + "/" + id);
+  getMatiere(_id: any): Observable<Matiere | undefined> {
+    return this.http.get<Matiere>(this.url + "/" + _id);
   }
 
 }

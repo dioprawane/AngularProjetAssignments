@@ -41,7 +41,7 @@ export class AddAssignmentsComponent implements OnInit {
     {"idMatiere": 8, "nom": "Programmation avancée", "enseignant": "M. Lahire", "imageMatiere": "../../assets/avancee.png", "imageProf": "assets/Lahire.jpg"},
     {"idMatiere": 9, "nom": "Recueil des exigences", "enseignant": "Mme Mirbel", "imageMatiere": "../../assets/gestionProjet.png", "imageProf": "assets/Mirbel.jpg"},
     {"idMatiere": 10, "nom": "Bases de données pour le Big Data", "enseignant": "M. Syska", "imageMatiere": "../../assets/bddBigData.png", "imageProf": "assets/Syska.jpg"},
-    {"idMatiere": 11, "nom": "Communication for business", "enseignant": "Mme Mirbel", "imageMatiere": "../../assets/rassembler.png", "imageProf": "assets/Frederic_Arnault.jpg"}
+    {"idMatiere": 11, "nom": "Communication for business", "enseignant": "M. Arnault", "imageMatiere": "../../assets/rassembler.png", "imageProf": "assets/Frederic_Arnault.jpg"}
 ];
 
   constructor(
@@ -91,28 +91,28 @@ export class AddAssignmentsComponent implements OnInit {
     const selectedMatiereId = this.firstFormGroup.get('matiere').value;
     const selectedMatiere = this.matieres.find(m => m.idMatiere === selectedMatiereId);
 
-
     this.dernierId++; // Incrémenter le dernier ID utilisé
-    const newAssignment = new Assignment();
-    newAssignment.id = this.idService.obtenirProchainId();
-    newAssignment.nom = this.firstFormGroup.get('nomDevoir').value;
-    newAssignment.dateDeRendu = this.secondFormGroup.get('dateRendu').value;
-    newAssignment.rendu = false;
-    newAssignment.remarque = this.firstFormGroup.get('remarque').value;
-    newAssignment.eleves = [];
-    newAssignment.matiere = selectedMatiere;
-    console.log("Assignment Matiere : ", newAssignment.matiere);
-    console.log("newAssignment : ", newAssignment);
+    const newAssignment2 = new Assignment();
+    newAssignment2.id = this.idService.obtenirProchainId();
+    newAssignment2.nom = this.firstFormGroup.get('nomDevoir').value;
+    newAssignment2.dateDeRendu = this.secondFormGroup.get('dateRendu').value;
+    newAssignment2.rendu = false;
+    newAssignment2.remarque = this.firstFormGroup.get('remarque').value;
+    newAssignment2.eleves = [];
+    newAssignment2.matiere_idMatiere = selectedMatiere.idMatiere;
+    newAssignment2.matiere_nom = selectedMatiere.nom;
+    newAssignment2.matiere_enseignant = selectedMatiere.enseignant;
+    newAssignment2.matiere_imageMatiere = selectedMatiere.imageMatiere;
+    newAssignment2.matiere_imageProf = selectedMatiere.imageProf;
   
-    this.assignmentsService.addAssignment(newAssignment)
+    this.assignmentsService.addAssignment(newAssignment2)
         .subscribe(message => {
           console.log(message);
           this.resetForm();
           this.enCoursDeSoumission = false;
           this.router.navigate(['list']);
         });
-        console.log("newAssignment : ", newAssignment);
-        console.log("selectedMatiereNom : ", selectedMatiereId);
+        console.log("newAssignment : ", newAssignment2);
         console.log("selectedMatiere : ", selectedMatiere);
   }
   

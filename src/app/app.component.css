@@ -1,6 +1,7 @@
 /* Style par défaut pour les écrans plus larges */
 mat-toolbar {
-  height: 60px; /* Hauteur standard pour les grands écrans */
+  height: 50px; /* Hauteur standard pour les grands écrans */
+  width: 100%;
   /* Autres styles généraux */
 }
 
@@ -8,6 +9,7 @@ mat-toolbar {
 @media (max-width: 768px) {
   mat-toolbar {
     height: 50px; /* Hauteur réduite pour les tablettes */
+    width: 100%;
   }
 }
 
@@ -15,6 +17,7 @@ mat-toolbar {
 @media (max-width: 480px) {
   mat-toolbar {
     height: 40px; /* Hauteur encore plus réduite pour les téléphones mobiles */
+    width: 100%;
   }
 }
 
@@ -56,6 +59,16 @@ a {
   flex-direction: column;
 }
 
+.matButRaised2 {
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 10px;
+  width: 250px;
+  width: 20%;
+  height: auto;
+}
+
 .ButLogin {
   margin-left: 20px;
   color: white;
@@ -68,7 +81,7 @@ a {
 
 /* Classe appliquée lorsque c'est la page d'accueil */
 .f-home {
-  margin-top: 750px;
+  /*margin-top: 750px;*/
   min-height: auto;
   display: flex;
   flex-direction: column;
@@ -82,6 +95,7 @@ a {
 }
 
 mat-toolbar-row {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content:flex-start;
@@ -129,7 +143,7 @@ button[mat-button] {
 
 
 .btnAjout {
-  height: 50px;
+  height: 10%;
   font-size: auto;
   margin: 5px;
   width: 10%;

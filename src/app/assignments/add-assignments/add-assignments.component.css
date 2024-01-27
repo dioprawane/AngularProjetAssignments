@@ -4,69 +4,45 @@ html, body {
   padding: 0;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  height: auto;
-  height: 100%; /* Fait en sorte que .form prenne toute la hauteur disponible */
-  width: 100%; /* Fait en sorte que .form prenne toute la largeur disponible */
-}
-
 .add {
-  min-height: 450px;
-}
-
-.butA {
-  margin: 5px;
-  margin-top: 100px;
-  width: 200px;
-}
-
-.butAclass {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  height: auto;
-  height: 100%; /* Fait en sorte que .form prenne toute la hauteur disponible */
-  width: 100%; /* Fait en sorte que .form prenne toute la largeur disponible */
-}
-
-.add {
+  min-height: 100%; /* Assurez-vous que le conteneur prend toute la hauteur de l'écran */
   max-width: 800px;
   margin: auto;
-  padding: 20px;
+  padding: 10px;
 }
 
 mat-form-field {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 mat-horizontal-stepper {
   background-color: white;
+  min-height: 400px;
   width: 100%;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Style pour les étapes individuelles */
 .mat-step-header {
-  width: calc(100% / 3); /* Répartir équitablement sur 3 étapes, ajustez selon le nombre d'étapes */
-  max-width: none; /* Pour empêcher la limitation de la largeur maximale */
+  width: calc(100% / 3); /* Ajustez selon le nombre d'étapes */
+  max-width: none;
+}
+
+
+.stepper-text {
+  font-size: 18px;
+  color: #4a4a4a;
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
 }
 
 .butA {
   margin-top: 20px;
+  width: 200px;
 }
-
-.stepper-text {
-  font-size: 18px; /* Taille de la police */
-  color: #4a4a4a; /* Couleur du texte */
-  text-align: center; /* Alignement du texte */
-  margin: 20px 0; /* Marge autour du texte */
-  font-weight: bold; /* Gras */
-  font-family: 'Arial', sans-serif; /* Police de caractères */
-}
-
 

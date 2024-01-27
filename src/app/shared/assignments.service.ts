@@ -15,15 +15,6 @@ export class AssignmentsService {
 
   url = "https://service1-projet-angular.onrender.com/api/assignments";
 
-  /*peuplerBD(): Promise<any> {
-    // Utilisez votre API pour envoyer les données à la base de données
-    // Cela dépend de la façon dont votre backend est configuré
-    return Promise.all(assignments.map(assignment => {
-      return this.http.post<Assignment>(this.url, assignment);
-      //return firstValueFrom(this.http.post('/api/assignments', assignment));
-    }));
-  }*/
-
   peuplerBD(): Observable<Assignment[]> {
     const calls = assignments.map((assignment) => this.addAssignment(assignment));
     return forkJoin(calls); // forkJoin attend que toutes les requêtes soient résolues
@@ -39,8 +30,10 @@ export class AssignmentsService {
     return this.http.get<Assignment[]>(this.url, { params: params });
   }
 
-  addAssignment(assignment: Assignment): Observable<Assignment> {
+  addAssignment(assignment: Assignment): Observable<any> {
     //return of('Assignment ajouté');
+    console.log("Dans addAssignment, avant post");
+    console.log(assignment);
     return this.http.post<Assignment>(this.url, assignment);
   }
 
