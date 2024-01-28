@@ -13,23 +13,14 @@ export class AssignmentsService {
 
   constructor(private loggingService:LoggingService, private http:HttpClient) { }
 
-  //url = "https://service1-projet-angular.onrender.com/api/assignments";
-  url = "http://localhost:8010/api/assignments";
+  url = "https://service1-projet-angular.onrender.com/api/assignments";
+  //url = "http://localhost:8010/api/assignments";
 
   peuplerBD(): Observable<Assignment[]> {
     const calls = assignments.map((assignment) => this.addAssignment(assignment));
     return forkJoin(calls); // forkJoin attend que toutes les requêtes soient résolues
   }
 
-  /*getAssignments(page: number = 1, pageSize: number = 50): Observable<Assignment[]> {
-    // Préparer les paramètres de la requête HTTP pour la pagination
-    let params = new HttpParams();
-    params = params.append('page', String(page));
-    params = params.append('limit', String(pageSize));
-
-    // Appel GET avec les paramètres de pagination
-    return this.http.get<Assignment[]>(this.url, { params: params });
-  }*/
   getAssignments(page: number, limit: number, filtre: string, r: string): Observable<any> {
     return this.http.get(this.url + `?page=${page}&limit=${limit}`+'&trie=' + filtre + "&recherche=" + r);
   }
@@ -51,10 +42,6 @@ export class AssignmentsService {
     let deleteURI = this.url + "/" + assignment._id;
     return this.http.delete(deleteURI);
   }
-
-  /*getAssignment(id: number): Observable<Assignment | undefined> {
-    return this.http.get<Assignment>(this.url + "/" + id);
-  }*/
 
   getAssignment(id: number): Observable<Assignment> {
     return this.http.get<Assignment>(`${this.url}/id/${id}`);
