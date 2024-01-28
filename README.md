@@ -1,43 +1,39 @@
 # Angular : Projet final - Assignments
-Repository où déposer le projet n°2 Angular
+Notre application a été déployé et est disponible sur : https://service2222-projet-angular-front-end.onrender.com
 
 ## Commentaires
-Voici le lien de mon repository git que j'ai testé dans mon "Codespace" comme je n'ai pu le faire dans celui de votre repository pour vérifier :
-https://github.com/dioprawane/MesTPsAngular.git
+Voici les liens utiles :
+
+front-end : https://github.com/dioprawane/DIOP_PRUDENT_AngularProjetAssignments.git
+
+back-end : https://github.com/dioprawane/AngularAPI.git
+
+front déployé sur render : https://service2222-projet-angular-front-end.onrender.com
+
+back déployé sur render : https://service1-projet-angular.onrender.com
 
 Puis pour ce qui concerne ce point : 
 - [x] Gestion des droits :
-  - Si on n'est pas logué on ne peut ni voir le détail, ni éditer
-  
-J'étais parti sur l'idée que si on n'est pas logé, on ne peut rien faire que voir les options possibles sans pouvoir y naviguer.
-Et partout où on souhaite naviguer, un message de demande de connexion est affiché. Il faut se connecter pour découvrir les contenus.
-Puis pour avoir les identifications, essayez de vous connecter avec n'importe quels identifiants et vous aurez en alerte les vrais login/password pour chaque rôle.
+  - Si on n'est pas logué on ne peut que voir la page home
 
-### DIOP :
+Pour avoir les identifications, essayez de vous connecter avec n'importe quels identifiants et vous aurez en alerte les vrais login/password pour chaque rôle.
 
-### Serigne Rawane : 
+### DIOP Serigne Rawane et PRUDENT Arthur : 
 
 ## Fonctionnalités intégrées[^3]
 - [x] Au moins 1000 assignments dans la base de données. 
-- [x] Ajouter une gestion de login/password :
-  - Vous ajouter dans la toolbar un formulaire login/password + bouton connexion. Une fois loggué, le formulaire disparait et seul un bouton de deconnexion apparait.
-  - Si on est loggué en tant que user autorisé on a le droit de modifier / ajouter un assignment. Si on est loggué en admin on pourra en plus supprimer des assignments. Si on n'est pas loggué on ne peut que consulter.
-  - Vous codez en dur dans le service d'authentification une liste de login/passwords valides.
-- [x] Identification par **login/password**
-  - ajouter un tableau de login/password/role (avec rôle qui est soit **user** soit **admin**) dans le service d'authentification
-  - modifier le code pour avoir `isLogged()` **ET** `isAdmin()` au lieu de juste `isAdmin()`
-- [x] Au lieu du slider `LogIn`, ajouter un bouton connecter (avec une *mat-icon* adaptée) qui amène à un composant avec un formulaire de connexion
-- [x] Ajouter de nouvelles propriétés au modèle des Assignments
-  - Auteur (nom de l'élève)
-  - Matière (Base de données, Technologies Web, Grails, etc.)
-  - Une image sera associée à chaque matière et une photo du prof
-  - Note sur 20, on ne peut marquer "rendu" un Assignment qui n'a pas été noté.
-  - Remarques sur l'assignment
+- [x] Ajouter une gestion de login/password : OKAY
+- [x] Ajouter de nouvelles propriétés au modèle des Assignments : OKAY
+- [x] APPROCHE AVANCEE : vous ajoutez une collection "matières" et/ou "élève" mais évidemment cela impactera plus le back end et cela représente beaucoup de travail par rapport au reste de ce qui est demandé, c'est donc une solution optionnelle pour les meilleurs d'entre vous : OKAY
+- [x] Améliorer l'affichage des Assignments : OKAY
+- [x] OPTIONNEL : Ajouter un filtre rendu/non rendu : Selon que cette case est cochée ou pas le tableau affichera uniquement les assignments rendus ou non rendus : OKAY
+- [x] OPTIONNEL : Ajouter un champ de recherche sur le nom de l'assignment qui enverra une requête et affichera les résultats correspondants à la recherche : OKAY
+- [x] Optionnel (mais simple à faire): utiliser un Formulaire de type Stepper (formulaire en plusieurs étapes) pour l'ajout d'Assignments (éventuellement pour la modification) : OKAY
+- [x] Rendre le tout plus joli, essayez de ne pas tous faire la même chose. Je recommande une toolbar en haut, une sidebar sur le côté : OKAY
+- [x] Hébergement sur Heroku.com ou render.com. : OKAY
+- [x] Le sujet est ouvert, vous pouvez ajouter ce qui vous semble amusant/pertinent: : OKAY
+- [x] Dashbords interactifs sur Power BI intégrés : OKAY
 
-
-[^1]: à remplir
-[^2]: à remplir
-[^3]: vous pouvez cocher les tâches qui ont été faites en utilisant la syntaxe `[x]` dans le markdown
 
 # AssignmentApp
 
@@ -67,3 +63,15 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 # AngularProjetAssignments
+
+
+## Ressources :
+Angular Material : https://material.angular.io/components/categories
+
+MongoDB documentations : https://www.mongodb.com/docs
+
+MongoDB university : https://learn.mongodb.com/learning-paths/introduction-to-mongodb
+
+Power BI
+
+Render
