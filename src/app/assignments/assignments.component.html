@@ -3,13 +3,30 @@
   <div class="filter-container">
     <!-- Ajout d'un champ de recherche -->
     <div class="search-container">
-      <input matInput placeholder="Recherche par Nom d'Assignment" (input)="onSearchInput($event)">
+      <!--<input matInput placeholder="Recherche par Nom d'Assignment" (input)="r==$event.value">-->
+      <mat-form-field >
+        <mat-label>Recherche</mat-label>
+        <input matInput
+          [(ngModel)]="r"
+          (keyup)="loadAssignments()"
+          placeholder="par Nom d'Assignment" #input>
+      </mat-form-field>
     </div>
-    <mat-radio-group (change)="applyFilter($event.value)">
+    <!--<mat-radio-group (change)="filterValue==$event.value">
       <a>Filtre sur le rendu :</a>
       <mat-radio-button value="all">Tous</mat-radio-button>
       <mat-radio-button value="rendu">Rendus</mat-radio-button>
       <mat-radio-button value="nonRendu">Non Rendus</mat-radio-button>
+    </mat-radio-group>-->
+    <mat-radio-group
+      aria-labelledby="example-radio-group-label"
+      class="example-radio-group"
+      (change)="loadAssignments()"
+      [(ngModel)]="filterValue">
+      <a>Filtre sur le rendu :</a>
+      <mat-radio-button class="example-radio-button" value="all">Tous</mat-radio-button>
+      <mat-radio-button class="example-radio-button" value="rendu">Rendus</mat-radio-button>
+      <mat-radio-button class="example-radio-button" value="nonRendu">Non Rendus</mat-radio-button>
     </mat-radio-group>
   </div>
   <section style="height: 400px" class="example-container mat-elevation-z8" tabindex="0">
@@ -62,6 +79,24 @@
         <th mat-header-cell *matHeaderCellDef> image Matiere </th>
         <td mat-cell *matCellDef="let assignment"> <img [src]="assignment.matiere_imageMatiere"> </td>
       </ng-container>
+
+      <!-- Colonne detail -->
+      <!-- Dans votre composant de tableau d'assignments -->
+      <ng-container matColumnDef="detail">
+        <th mat-header-cell *matHeaderCellDef> Détail </th>
+        <td mat-cell *matCellDef="let assignment">
+          <button mat-button (click)="openDetailsPopup(assignment)">Détail</button>
+        </td>
+      </ng-container>
+
+
+      <!-- Colonne edit -->
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef> Edit </th>
+        <td mat-cell *matCellDef="let assignment">
+          <button class="matButRaised" mat-raised-button color="primary" (click)="onClickEdit(assignment)" [disabled]="!isConnected()">Edit</button>
+        </td>
+      </ng-container>      
   
       <!-- En-têtes de colonnes -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true"></tr>
@@ -69,7 +104,11 @@
       <!-- Lignes de données -->
       <tr mat-row *matRowDef="let assignment; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSize]="20" [pageSizeOptions]="[20, 50, 100, 200]" showFirstLastButtons></mat-paginator>
   </section>
-  
+  <mat-paginator [length]="totalAssignments"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="[10, 20, 50, 100, 200, 1000, 1100]"
+              showFirstLastButtons="true"
+              (page)="onChangePage($event)">
+  </mat-paginator>
 </main>

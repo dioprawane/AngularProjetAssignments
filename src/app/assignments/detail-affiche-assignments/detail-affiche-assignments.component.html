@@ -1,1 +1,14 @@
-<p>detail-affiche-assignments works!</p>
+<mat-dialog-content>
+    <h2>{{assignment.nom}}</h2>
+    <p>Date de rendu: {{assignment.dateDeRendu | date}}</p>
+    <p>Remarque: {{assignment.remarque}}</p>
+    <p>Matière: {{assignment.matiere_nom}}</p>
+    <p>Enseignant: {{assignment.matiere_enseignant}}</p>
+    <img [src]="assignment.matiere_imageMatiere">
+    <img [src]="assignment.matiere_imageProf">
+
+    <table mat-table [dataSource]="assignment.eleves" class="mat-elevation-z8">
+        <!-- Définition des colonnes ici -->
+    </table>
+</mat-dialog-content>
+  

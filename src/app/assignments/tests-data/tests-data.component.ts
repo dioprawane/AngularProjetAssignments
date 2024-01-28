@@ -11,18 +11,6 @@ export class TestsDataComponent implements AfterViewInit {
 
   title = 'Tests de données';
 
-  @ViewChild('revealView', { static: false }) el!: ElementRef;
-  private revealView: any;
-
   ngAfterViewInit(): void {
-    //$.ig.RevealSdkSettings.setBaseUrl('https://service1-projet-angular.onrender.com/api/assignments/');
-    $.ig.RevealSdkSettings.setBaseUrl('https://samples.Revealbi.io/upmedia-backend/reveal-api/');
-    $.ig.RevealSdkSettings.ensureFontsLoadedAsync().then(() => {
-      $.ig.RVDashboard.loadDashboard('Sales', (dashboard: any) => {
-        //$.ig.RVDashboard.loadDashboard('assignments', (dashboard: any) => {
-        this.revealView = new $.ig.RevealView(this.el.nativeElement);
-        this.revealView.dashboard = dashboard;
-      });
-    });
   }
 }

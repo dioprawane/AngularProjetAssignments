@@ -20,6 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,6 +51,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { IdService } from './shared/id.service';
+import { SupprimeAssignmentsComponent } from './assignments/supprime-assignments/supprime-assignments.component';
+import { DetailAfficheAssignmentsComponent } from './assignments/detail-affiche-assignments/detail-affiche-assignments.component';
 
 const routes: Routes = [
   { path: 'home', component: AssignmentsComponent},
@@ -59,12 +62,18 @@ const routes: Routes = [
   { path: 'add', component:AddAssignmentsComponent },
   { path: 'change', component: ChangeAssignmentsComponent },
   { path: 'delete', component: DeleteAssignmentsComponent },
+  { path: 'supprime', component: SupprimeAssignmentsComponent },
   { path: 'tests', component: TestsDataComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'assignment/:_id', component: DetailAssignmentsComponent },
+  { path: 'afficheDetail/:id', component: DetailAfficheAssignmentsComponent },
+  { path: 'assignment/:id', component: DetailAssignmentsComponent },
   { 
-    path: 'assignment/:_id/edit', 
-    component: EditAssignmentsComponent ,
+    path: 'assignment/:id/edit', 
+    component: EditAssignmentsComponent,
+    canActivate: [authGuard]
+  },
+  { path: 'edit/:id', 
+    component: EditAssignmentsComponent,
     canActivate: [authGuard]
   },
 ];
@@ -83,7 +92,9 @@ const routes: Routes = [
     DetailAssignmentsComponent,
     FooterComponent,
     EditAssignmentsComponent,
-    LoginComponent
+    LoginComponent,
+    SupprimeAssignmentsComponent,
+    DetailAfficheAssignmentsComponent
   ],
   imports: [
     BrowserModule,
@@ -113,7 +124,8 @@ const routes: Routes = [
     MatRadioModule,
     MatStepperModule,
     ReactiveFormsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
   providers: [AssignmentsService, LoggingService, AuthService, MatieresService, ElevesService, IdService, { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }],
   bootstrap: [AppComponent]

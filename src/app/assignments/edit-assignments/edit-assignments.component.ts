@@ -13,6 +13,7 @@ export class EditAssignmentsComponent implements OnInit {
   assignment!:Assignment | undefined;
   nomAssignment!: string;
   dateDeRendu!: Date;
+  remarque!: string;
 
   //source: string = 'list';  // valeur par défaut
 
@@ -40,7 +41,7 @@ export class EditAssignmentsComponent implements OnInit {
       this.dateDeRendu = assignment.dateDeRendu;
     });
   }*/
-  getAssignment() {
+  /*getAssignment() {
     // Récupération de l'ID en tant que string
     const id = this.route.snapshot.paramMap.get('_id');
     if (id) {
@@ -51,7 +52,26 @@ export class EditAssignmentsComponent implements OnInit {
         this.dateDeRendu = assignment.dateDeRendu;
       });
     }
+  }*/
+  getAssignment() {
+    // Récupérer l'ID depuis l'URL et le convertir en nombre
+    const id = +this.route.snapshot.params['id'];
+    if (id) {
+      this.assignmentsService.getAssignment(id).subscribe((assignment) => {
+        if (!assignment) {
+          console.error('Assignment introuvable');
+          return;
+        }
+        this.assignment = assignment;
+        this.nomAssignment = assignment.nom;
+        this.dateDeRendu = new Date(assignment.dateDeRendu);
+        this.remarque = assignment.remarque;
+      }, error => {
+        console.error('Erreur lors de la récupération de l\'assignment', error);
+      });
+    }
   }
+  
 
 
   onSaveAssignment() {
@@ -60,6 +80,7 @@ export class EditAssignmentsComponent implements OnInit {
     // on récupère les valeurs dans le formulaire
     this.assignment.nom = this.nomAssignment;
     this.assignment.dateDeRendu = this.dateDeRendu;
+    this.assignment.remarque = this.remarque;
     this.assignmentsService
       .updateAssignment(this.assignment)
       .subscribe((message) => {

@@ -1,0 +1,133 @@
+
+p {
+    margin: 10px;
+}
+
+.rendu {
+    color: green;
+}
+
+.non-rendu {
+    color: red;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+table tr td {
+    border: 1px solid black;
+  }
+  
+.rendu {
+    color:green;
+}
+  
+.nonRendu {
+    color:red;
+    border:2px dashed red;
+    background-color:yellow;
+}
+  
+#monParagraphe {
+    color:pink
+}
+  
+.container {
+    display:flex;
+    flex-direction:column;
+    min-height: 450px;
+  }
+
+.AjouerBnt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+  
+.btnAjout {
+    align-self: auto;
+    margin: 5px;
+    width: 200px;
+}
+
+
+h2 {
+    text-align: center;
+    margin: 25px;
+    font-size: 3em;
+    font-style: italic;
+    color:blueviolet;
+}
+
+h3 {
+    margin-left: 5px;
+}
+
+
+#bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-left: 5px;
+}
+
+
+
+/* Stylisation générale de la liste */
+mat-list {
+    /* espace autour de la liste */
+   max-width: 600px; /* ajustez la largeur maximale selon vos besoins */
+   margin: auto; /* pour centrer la liste */
+   margin-top: 10px;
+   padding: 10px; /* espace autour des éléments de la liste */
+   background: #f7f7f7; /* couleur de fond légère */
+   border-radius: 4px; /* bordures arrondies */
+   box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* ombre subtile */
+   border: 10px solid #ddd; /* bordure pour chaque élément */
+ }
+ 
+ /* Stylisation des éléments de la liste */
+ mat-list-item {
+   border: 2px solid #ddd; /* bordure pour chaque élément */
+   margin-bottom: 10px; /* espace entre les éléments */
+   transition: background-color 0.3s; /* transition douce pour l'interaction */
+ }
+
+ /* Pour le premier élément de la liste */
+mat-list-item:first-child {
+   margin-top: 10px;
+ }
+ 
+ 
+ /* Interaction avec les éléments de la liste */
+ mat-list-item:hover {
+   background-color: #eaeaea; /* couleur de fond au survol */
+ }
+ 
+ /* Stylisation pour les devoirs rendus */
+ appRendu {
+   color: #4caf50; /* couleur verte pour les devoirs rendus */
+ }
+ 
+ /* Stylisation pour les devoirs non rendus */
+ appNonRendu {
+   color: #f44336; /* couleur rouge pour les devoirs non rendus */
+ }
+ 
+ /* Stylisation du séparateur */
+ mat-divider {
+   margin: 0 0 10px 0; /* ajustez l'espace autour des séparateurs */
+ }
+
+ .matList {
+   border: 2px solid #ddd; /* bordure pour chaque élément */
+   transition: background-color 0.3s; /* transition douce pour l'interaction */
+ }
+ 

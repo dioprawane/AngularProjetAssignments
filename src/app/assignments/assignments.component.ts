@@ -2,10 +2,14 @@ import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef } from '
 import { Assignment } from './assignment.model';
 import { AssignmentsService } from '../shared/assignments.service';
 import { AuthService } from '../shared/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
+import { PageEvent } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { DetailAfficheAssignmentsComponent } from './detail-affiche-assignments/detail-affiche-assignments.component';
+
 
 @Component({
   selector: 'app-assignments',
@@ -14,7 +18,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 })
 
 export class AssignmentsComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu', 'remarque', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere'];
+  displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu', 'remarque', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere', 'detail', 'edit'];
   flatAssignments = new MatTableDataSource<any>(); // Utilisez MatTableDataSource
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -28,6 +32,13 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   assignments:Assignment[] = [];
   currentUser: any = null;
   afficheMessage: boolean = false;
+  page: number = 1;
+  pageSize: number = 10; // Nombre d'éléments par page
+  totalAssignments = 0; // Initialiser le nombre total d'assignments
+  nextPage!: number;
+  prevPage!: number;
+  filterValue: string = 'all';
+  r = '';
   
   assignmentSelectionne?:Assignment;
 
@@ -35,10 +46,16 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     private assignmentService:AssignmentsService, 
     private authService: AuthService, 
     private router: Router,
-    private changeDetectorRefs: ChangeDetectorRef) { } 
+    private changeDetectorRefs: ChangeDetectorRef,
+    private route: ActivatedRoute,
+    private dialog: MatDialog) { } 
+
+    //this.changeDetectorRefs.detectChanges();
 
   ngOnInit() {
+    const assignmentId = this.route.snapshot.params['id'];
     //this.assignments = this.assignmentService.getAssignments();
+    this.loadAssignments();
     this.getAssignments();
     this.authService.userObservable$.subscribe(user => {
       this.currentUser = user;
@@ -47,6 +64,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.flatAssignments.paginator = this.paginator;
     this.flatAssignments.sort = this.sort;
     this.flatAssignments.sortingDataAccessor = (item, property) => {
       switch (property) {
@@ -57,6 +75,25 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     };
 
     this.sort.sortChange.subscribe(() => this.applySort());
+  }
+
+  getAssignment() {
+    // Récupérer l'ID depuis l'URL et le convertir en nombre
+    const id = +this.route.snapshot.params['id'];
+    if (id) {
+      this.assignmentService.getAssignment(id).subscribe(assignment => {
+        this.assignmentSelectionne = assignment;
+      }, error => {
+        console.error('Erreur lors de la récupération de l\'assignment', error);
+      });
+    }
+  }
+
+  openDetailsPopup(assignment: any) {
+    this.dialog.open(DetailAfficheAssignmentsComponent, {
+      width: '80%',
+      data: assignment
+    });
   }
 
   applySort() {
@@ -77,11 +114,16 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     }
 
   getAssignments() {
-    this.assignmentService.getAssignments().subscribe(assignments => {
-      this.assignments = assignments;
-      this.originalAssignments = assignments;
-      this.flatAssignments.data = assignments;
-      this.flatAssignments.paginator = this.paginator;
+    this.assignmentService.getAssignments(this.page, this.pageSize, this.filterValue, this.r).subscribe(data => {
+      this.nextPage = data.nextPage;
+      this.prevPage = data.prevPage;
+      this.assignments = data.assignments;
+      this.totalAssignments = data.total; // Mettre à jour le nombre total d'assignments
+      /*setTimeout(() => {
+        this.flatAssignments.paginator = this.paginator;
+      });*/
+      this.flatAssignments.data = this.assignments;
+      this.changeDetectorRefs.detectChanges();
     });
   }
   
@@ -93,6 +135,17 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   getColor(a: any) {
     if (a.rendu) return 'green';
     else return 'red';
+  }
+
+  onChangePage(event: PageEvent) {
+    this.page = event.pageIndex + 1; // Page index commence à 0
+    this.pageSize = event.pageSize;
+    //this.loadAssignments();
+    this.nextPage = this.page + 1;
+    this.prevPage = this.page - 1;
+
+    this.flatAssignments.paginator = this.paginator;
+    this.getAssignments();
   }
 
 
@@ -137,7 +190,7 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     this.changeDetectorRefs.detectChanges(); // Informe Angular d'un changement
   }*/
 
-  applyFilter(filterValue: string) {
+  /*applyFilter(filterValue: string) {
     switch (filterValue) {
       case 'all':
         this.flatAssignments.data = [...this.originalAssignments]; // Réinitialiser avec les données originales
@@ -154,10 +207,10 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   onSearchInput(event: Event) {
     const input = event.target as HTMLInputElement;
     this.applySearch(input.value);
-  }
+  }*/
 
   // Méthode pour filtrer les assignments
-  applySearch(searchValue: string) {
+  /*applySearch(searchValue: string) {
     let filteredAssignments: Assignment[];
     if (!searchValue) {
       filteredAssignments = this.originalAssignments; // Assurez-vous que 'originalAssignments' est bien de type Assignment[]
@@ -168,8 +221,43 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     }
     // Conversion en MatTableDataSource
     this.flatAssignments = new MatTableDataSource(filteredAssignments);
+  }*/
+
+  isConnected() : boolean {
+    return this.authService.isConnected();
   }
+  
+  /*onClickEdit() {
+    this.router.navigate(['/assignment', this.assignmentSelectionne.id, 'edit'],
+    {queryParams: {nom: this.assignmentSelectionne.nom}, fragment: 'edition'});
+  }*/
+  onClickEdit(assignment: Assignment) {
+    this.assignmentSelectionne = assignment;
+    if (this.assignmentSelectionne) {
+      this.router.navigate(['/assignment', this.assignmentSelectionne.id, 'edit']);
+    } else {
+      console.error('Aucun assignment sélectionné');
+      // Vous pouvez également afficher un message à l'utilisateur ici
+    }
+  }
+  
+  
+
+  loadAssignments() {
+    this.assignmentService.getAssignments(this.page, this.pageSize, this.filterValue, this.r).subscribe(data => {
+      this.assignments = data.assignments;
+      this.totalAssignments = data.total;
+      this.flatAssignments.data = this.assignments;
+      this.flatAssignments.paginator = this.paginator; 
+      //// Assurez-vous que cette ligne est présente
+      this.changeDetectorRefs.detectChanges();
+      //this.getAssignments();
+    });
 }
+
+
+}
+
 
 function compare(a: string | number, b: string | number, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);

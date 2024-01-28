@@ -33,7 +33,7 @@ export class DetailAssignmentsComponent implements OnInit {
     });
   }
 
-  getAssignment() {
+  /*getAssignment() {
     const id = this.route.snapshot.paramMap.get('_id');
     if (id) {
       this.assignmentsService.getAssignment({ $oid: id }).subscribe(
@@ -45,7 +45,20 @@ export class DetailAssignmentsComponent implements OnInit {
         }
       );
     }
+  }*/
+  getAssignment() {
+    // Récupérer l'ID depuis l'URL et le convertir en nombre
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      const idNumber = +id; // Le symbole '+' convertit la chaîne en nombre
+      this.assignmentsService.getAssignment(idNumber).subscribe(assignment => {
+        this.assignmentTransmis = assignment;
+      }, error => {
+        console.error('Erreur lors de la récupération de l\'assignment', error);
+      });
+    }
   }
+  
     
 
   onDeleteAssignment() {

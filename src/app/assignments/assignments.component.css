@@ -142,16 +142,38 @@ img{
 }
 
 .search-container {
-    margin: 10px 0;
+    margin: 5px 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Style pour le champ de recherche */
+.search-container .mat-form-field {
+    margin: 5px 0;
+    width: 20%; /* Augmenter la largeur */
+    width: 500px; /* Largeur minimale */
+  }
+
+.search-container input[matInput] {
+    width: 10%;
+    min-width: 180px;
+    height: 50px; /* Diminuer la hauteur */
+    border: 1px solid #ccc; /* Ajouter une bordure */
+    border-radius: 4px; /* Arrondir les bords */
+    padding: 0 5px; /* Ajouter un peu de padding */
+    font-size: 15px;
+}
+
+/* Style pour l'étiquette (label) du champ */
+.search-container .mat-form-field.mat-focused .mat-form-field-label {
+    color: #3f51b5; /* Couleur quand le champ est focus */
   }
   
 input {
     width: 100%;
-    padding: 10px;
-    margin: 10px 10px;
-    /*min-width: 250px;*/
+    padding: 5px;
+    margin: 5px 5px;
     box-sizing: border-box;
 }
 

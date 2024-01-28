@@ -3,6 +3,7 @@ import { Assignment } from '../assignment.model';
 import { AssignmentsService } from 'src/app/shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-delete-assignments',
@@ -21,7 +22,10 @@ export class DeleteAssignmentsComponent implements OnInit {
 
   page: number = 1;
   pageSize: number = 10; // Nombre d'éléments par page
-  totalAssignments = 500; // Nombre total d'éléments à paginer
+  totalAssignments = 0; // Nombre total d'éléments à paginer
+
+  filterValue: string = 'all';
+  r = 'all';
   
   selectedAssignment: Assignment | null = null;
 
@@ -39,10 +43,9 @@ export class DeleteAssignmentsComponent implements OnInit {
       }
     });
     this.loadAssignments();
-    this.getAssignments();
+    //this.getAssignments();
     this.authService.userObservable$.subscribe(user => { 
       this.currentUser = user;
-
       // Vérifier si l'utilisateur est connecté
       if(!this.currentUser) {
         this.router.navigate(['/home']);
@@ -56,27 +59,62 @@ export class DeleteAssignmentsComponent implements OnInit {
     this.assignmentService.getAssignment('_id').subscribe(assignment => this.selectedAssignment = assignment);
   }*/
 
-  getAssignment() {
+  /*getAssignment() {
     const id = this.route.snapshot.paramMap.get('_id');
     if (id) {
       this.assignmentService.getAssignment({ $oid: id }).subscribe(assignment => {
         this.selectedAssignment = assignment;
       });
     }
+  }*/
+  getAssignment() {
+    // Récupérer l'ID depuis l'URL et le convertir en nombre
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      const idNumber = +id; // Le symbole '+' convertit la chaîne en nombre
+      this.assignmentService.getAssignment(idNumber).subscribe(assignment => {
+        this.selectedAssignment = assignment;
+      }, error => {
+        console.error('Erreur lors de la récupération de l\'assignment', error);
+      });
+    }
   }
+  
 
   getAssignments() {
-    this.assignmentService.getAssignments().subscribe(assignments => this.assignments = assignments);
+    // Utilisez les propriétés 'page' et 'pageSize' de votre composant
+    this.assignmentService.getAssignments(this.page, this.pageSize, this.filterValue, this.r)
+        .subscribe(data => {
+            this.assignments = data.assignments; // Assurez-vous que cette ligne correspond à la structure de votre réponse
+            this.totalAssignments = data.total; // Mettez à jour le nombre total si votre API le renvoie
+        }, error => {
+            console.error('Erreur lors de la récupération des assignments', error);
+        });
   }
+
 
   getColor(a: any) {
     if (a.rendu) return 'green';
     else return 'red';
   }
 
+  onChangePage(event: PageEvent) {
+    this.page = event.pageIndex + 1; // La pagination commence généralement à 1, pas 0
+    this.pageSize = event.pageSize;
+    this.loadAssignments();
+  }
 
   onAssignmentClicked(a: Assignment) {
     this.selectedAssignment = a;
+  }
+
+  loadAssignments() {
+    this.assignmentService.getAssignments(this.page, this.pageSize, this.filterValue, this.r).subscribe(data => {
+      this.assignments = data.assignments;
+      this.totalAssignments = data.total;
+    }, error => {
+      console.error('Erreur lors de la récupération des assignments', error);
+    });
   }
 
   onDeleteAssignment() {
@@ -87,6 +125,7 @@ export class DeleteAssignmentsComponent implements OnInit {
     this.assignmentService.deleteAssignment(this.selectedAssignment)
         .subscribe(message => {
           console.log(message);
+          this.loadAssignments();
           // Recharger la page pour afficher la liste des assignments
           location.reload();
           this.router.navigate(['/delete']);
@@ -100,12 +139,5 @@ export class DeleteAssignmentsComponent implements OnInit {
     return this.authService.isAdmin();
   }
 
-  loadAssignments() {
-    this.assignmentService.getAssignments(this.page, this.pageSize).subscribe(data => {
-      this.assignments = data;
-    }, error => {
-      console.error('Erreur lors de la récupération des assignments', error);
-    });
-  }
 
 }

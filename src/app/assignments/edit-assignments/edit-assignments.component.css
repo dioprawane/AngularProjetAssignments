@@ -3,7 +3,7 @@
     min-height: 300px;
   }
 
-  .edit {
+.edit {
     min-height: 430px;
 }
 
@@ -17,13 +17,19 @@ h1 {
 
 .form {
     display: flex;
-    margin: 10px;
+    margin: 30px;
 }
 
 .bnt {
+    width: 20%;
     display: flex;
     margin-top: 20px;
-    margin-left: 100px;
+    margin-left: 20px;
     align-self: center;
-    width: 200px;
 }
+
+.wide-input {
+    width: 70%; /* ou toute autre largeur souhaitée */
+    margin: 10px;
+}
+  
