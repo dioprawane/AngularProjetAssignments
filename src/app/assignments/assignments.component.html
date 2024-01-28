@@ -44,11 +44,21 @@
         <td mat-cell *matCellDef="let assignment"> {{assignment.dateDeRendu | date}} </td>
       </ng-container>
   
-      <!-- Colonne Rendu -->
+      <!-- Colonne Rendu avec icône -->
       <ng-container matColumnDef="rendu">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Rendu </th>
-        <td mat-cell *matCellDef="let assignment"> {{assignment.rendu ? 'Oui' : 'Non'}} </td>
+        <td mat-cell *matCellDef="let assignment">
+          <div class="icon-text-container">
+            <span *ngIf="assignment.rendu; else notRenduIcon">
+              <mat-icon style="color: green;" class="icon-align">check_circle</mat-icon> Oui
+            </span>
+            <ng-template #notRenduIcon>
+              <mat-icon style="color: red;" class="icon-align">cancel</mat-icon> Non
+            </ng-template>
+          </div>
+        </td>
       </ng-container>
+
 
       <!-- Colonne Remarque -->
       <ng-container matColumnDef="remarque">
@@ -85,10 +95,9 @@
       <ng-container matColumnDef="detail">
         <th mat-header-cell *matHeaderCellDef> Détail </th>
         <td mat-cell *matCellDef="let assignment">
-          <button mat-button (click)="openDetailsPopup(assignment)">Détail</button>
+          <button mat-button mat-raised-button color="accent" (click)="openDetailsPopup(assignment)">Détail</button>
         </td>
       </ng-container>
-
 
       <!-- Colonne edit -->
       <ng-container matColumnDef="edit">
@@ -105,10 +114,8 @@
       <tr mat-row *matRowDef="let assignment; columns: displayedColumns;"></tr>
     </table>
   </section>
-  <mat-paginator [length]="totalAssignments"
-              [pageSize]="pageSize"
-              [pageSizeOptions]="[10, 20, 50, 100, 200, 1000, 1100]"
-              showFirstLastButtons="true"
-              (page)="onChangePage($event)">
+  <mat-paginator  [pageSizeOptions]="[10, 25, 50, 100, 200]"
+                  showFirstLastButtons
+                  aria-label="Select page of periodic elements">
   </mat-paginator>
 </main>

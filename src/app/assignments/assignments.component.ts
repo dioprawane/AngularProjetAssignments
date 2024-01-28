@@ -19,10 +19,9 @@ import { DetailAfficheAssignmentsComponent } from './detail-affiche-assignments/
 
 export class AssignmentsComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu', 'remarque', 'nomMatiere', 'enseignant', 'imageProf', 'imageMatiere', 'detail', 'edit'];
-  flatAssignments = new MatTableDataSource<any>(); // Utilisez MatTableDataSource
+  flatAssignments: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  
 
   titre = "Formulaire d'ajout d'un devoir";
   ajoutActive = false;
@@ -33,10 +32,8 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   currentUser: any = null;
   afficheMessage: boolean = false;
   page: number = 1;
-  pageSize: number = 10; // Nombre d'éléments par page
+  pageSize: number = 1500; // Nombre d'éléments par page
   totalAssignments = 0; // Initialiser le nombre total d'assignments
-  nextPage!: number;
-  prevPage!: number;
   filterValue: string = 'all';
   r = '';
   
@@ -48,9 +45,9 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     private router: Router,
     private changeDetectorRefs: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private dialog: MatDialog) { } 
-
-    //this.changeDetectorRefs.detectChanges();
+    private dialog: MatDialog) { 
+      this.flatAssignments = new MatTableDataSource(this.assignments);
+    }
 
   ngOnInit() {
     const assignmentId = this.route.snapshot.params['id'];
@@ -115,18 +112,12 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
 
   getAssignments() {
     this.assignmentService.getAssignments(this.page, this.pageSize, this.filterValue, this.r).subscribe(data => {
-      this.nextPage = data.nextPage;
-      this.prevPage = data.prevPage;
       this.assignments = data.assignments;
       this.totalAssignments = data.total; // Mettre à jour le nombre total d'assignments
-      /*setTimeout(() => {
-        this.flatAssignments.paginator = this.paginator;
-      });*/
       this.flatAssignments.data = this.assignments;
       this.changeDetectorRefs.detectChanges();
     });
   }
-  
 
   getDescription() {
     return 'Je suis un sous composant';
@@ -140,29 +131,13 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
   onChangePage(event: PageEvent) {
     this.page = event.pageIndex + 1; // Page index commence à 0
     this.pageSize = event.pageSize;
-    //this.loadAssignments();
-    this.nextPage = this.page + 1;
-    this.prevPage = this.page - 1;
-
     this.flatAssignments.paginator = this.paginator;
     this.getAssignments();
   }
 
-
   assignmentClique(a:Assignment) {
     this.assignmentSelectionne = a;
   }
-
-  /*onAddAssignmentBtnClick() {
-    //this.formVisible = true;
-  }*/
-
-  /*onNouvelAssignment(event:Assignment) {
-    //this.assignments.push(event);
-    this.assignmentService.addAssignment(event).subscribe(message => console.log(message));
-
-    this.formVisible = false;
-  }*/
 
   doNothing() {
     console.log("doNothing");
@@ -181,56 +156,10 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /*toggleRendu(event: MatCheckboxChange) {
-    if (event.checked) {
-      this.flatAssignments.data = this.flatAssignments.data.filter(a => a.rendu);
-    } else {
-      this.getAssignments(); // ou utilisez une copie originale des données
-    }
-    this.changeDetectorRefs.detectChanges(); // Informe Angular d'un changement
-  }*/
-
-  /*applyFilter(filterValue: string) {
-    switch (filterValue) {
-      case 'all':
-        this.flatAssignments.data = [...this.originalAssignments]; // Réinitialiser avec les données originales
-        break;
-      case 'rendu':
-      case 'nonRendu':
-        const isRendu = filterValue === 'rendu';
-        this.flatAssignments.data = this.originalAssignments.filter(a => a.rendu === isRendu);
-        break;
-    }
-    this.changeDetectorRefs.detectChanges(); // Informer Angular du changement
-  }
-
-  onSearchInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.applySearch(input.value);
-  }*/
-
-  // Méthode pour filtrer les assignments
-  /*applySearch(searchValue: string) {
-    let filteredAssignments: Assignment[];
-    if (!searchValue) {
-      filteredAssignments = this.originalAssignments; // Assurez-vous que 'originalAssignments' est bien de type Assignment[]
-    } else {
-      filteredAssignments = this.originalAssignments.filter(assignment =>
-        assignment.nom.toLowerCase().includes(searchValue.toLowerCase())
-      );
-    }
-    // Conversion en MatTableDataSource
-    this.flatAssignments = new MatTableDataSource(filteredAssignments);
-  }*/
-
   isConnected() : boolean {
     return this.authService.isConnected();
   }
   
-  /*onClickEdit() {
-    this.router.navigate(['/assignment', this.assignmentSelectionne.id, 'edit'],
-    {queryParams: {nom: this.assignmentSelectionne.nom}, fragment: 'edition'});
-  }*/
   onClickEdit(assignment: Assignment) {
     this.assignmentSelectionne = assignment;
     if (this.assignmentSelectionne) {
@@ -255,7 +184,13 @@ export class AssignmentsComponent implements OnInit, AfterViewInit {
     });
 }
 
+}
 
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
 }
 
 

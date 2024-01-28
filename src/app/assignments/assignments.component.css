@@ -151,8 +151,7 @@ img{
   /* Style pour le champ de recherche */
 .search-container .mat-form-field {
     margin: 5px 0;
-    width: 20%; /* Augmenter la largeur */
-    width: 500px; /* Largeur minimale */
+    width: 10%; /* Augmenter la largeur */
   }
 
 .search-container input[matInput] {
@@ -171,7 +170,7 @@ img{
   }
   
 input {
-    width: 100%;
+    width: 80%;
     padding: 5px;
     margin: 5px 5px;
     box-sizing: border-box;
@@ -181,3 +180,16 @@ input {
     height: 400px;
     overflow: auto;
   }
+
+.icon-text-container {
+    display: flex;
+    align-items: center; /* Centre verticalement */
+    justify-content: center; /* Centre horizontalement */
+}
+
+.icon-align {
+    /* Alignement vertical de l'icône avec le texte */
+    vertical-align: middle;
+    margin-right: 4px; /* Espace entre l'icône et le texte */
+}
+  

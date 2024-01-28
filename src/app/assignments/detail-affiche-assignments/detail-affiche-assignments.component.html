@@ -1,14 +1,61 @@
 <mat-dialog-content>
-    <h2>{{assignment.nom}}</h2>
-    <p>Date de rendu: {{assignment.dateDeRendu | date}}</p>
-    <p>Remarque: {{assignment.remarque}}</p>
-    <p>Matière: {{assignment.matiere_nom}}</p>
-    <p>Enseignant: {{assignment.matiere_enseignant}}</p>
-    <img [src]="assignment.matiere_imageMatiere">
-    <img [src]="assignment.matiere_imageProf">
+    <div class="dialog-content">
+        <div class="text-content">
+            <h2>{{assignment.nom}}</h2>
+            <p>Date de rendu : {{assignment.dateDeRendu | date}}</p>
+            <p>
+                Rendu : 
+                <span *ngIf="assignment.rendu; else notRenduText">
+                    <mat-icon class="text-green">check_circle</mat-icon>
+                    <span class="text-green">Oui</span>
+                </span>
+                <ng-template #notRenduText>
+                    <mat-icon class="text-red">cancel</mat-icon>
+                    <span class="text-red">Non</span>
+                </ng-template>
+            </p>            
+            <p>Remarque : {{assignment.remarque}}</p>
+            <p>Matière : {{assignment.matiere_nom}}</p>
+            <p>Enseignant : {{assignment.matiere_enseignant}}</p>
+        </div>
+        <div class="images-content">
+            <img [src]="assignment.matiere_imageMatiere" class="small-img">
+            <img [src]="assignment.matiere_imageProf" class="small-img">
+        </div>
+    </div>
 
-    <table mat-table [dataSource]="assignment.eleves" class="mat-elevation-z8">
-        <!-- Définition des colonnes ici -->
-    </table>
+    <section class="example-container mat-elevation-z8" tabindex="0">
+
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        
+            <ng-container matColumnDef="nom">
+                <th class="col" mat-header-cell *matHeaderCellDef mat-sort-header="nom"> Nom </th>
+                <td mat-cell *matCellDef="let eleve"> {{eleve.nom}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="prenom">
+                <th class="col" mat-header-cell *matHeaderCellDef mat-sort-header="prenom"> Prenom </th>
+                <td mat-cell *matCellDef="let eleve"> {{eleve.prenom}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="note">
+                <th class="col" *matHeaderCellDef mat-sort-header="note"> Note </th>
+                <td mat-cell *matCellDef="let eleve"> {{eleve.note}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </section>
+
+    <!-- Bouton de retour -->
+    <div class="button-container">
+        <button mat-button mat-raised-button color="accent" mat-dialog-close>Retour</button>
+    </div>
+
 </mat-dialog-content>
   

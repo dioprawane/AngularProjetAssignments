@@ -1,0 +1,49 @@
+.dialog-content {
+    display: flex;
+    align-items: flex-start;
+}
+
+.text-content {
+    flex: 1;
+}
+
+.images-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px; /* Ajustez selon le besoin */
+}
+
+.small-img {
+    width: 64px;
+    height: 64px;
+    max-width: 100px; /* Ajustez la taille selon le besoin */
+    max-height: 100px;
+    margin-bottom: 10px;
+}
+
+
+.col {
+    background-color: #0d47a1;
+    color: white !important;
+    font-weight: bold !important;
+    padding: 8px 16px !important;
+    border-bottom: 2px solid #981010 !important;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Centre le bouton horizontalement */
+    align-items: center; /* Centre le bouton verticalement si nécessaire */
+    margin-top: auto; /* Pousse le bouton vers le bas */
+    padding: 10px; /* Espacement autour du bouton */
+}
+
+.text-green {
+    color: green;
+  }
+  
+.text-red {
+    color: red;
+}
+  
